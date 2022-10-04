@@ -1,0 +1,13 @@
+*.tmp
+
+# style template
+*Pending/*
+
+# qt build directory
+build*
+
+# qt IDE user settigns
+*.user
+*.autosave
+
+.vscode

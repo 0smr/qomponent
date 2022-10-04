@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/Qomponent">
+        <file>base/BoxShadow.qml</file>
+        <file>base/FastShadow.qml</file>
+        <file>base/Guide.qml</file>
+        <file>base/Pie.qml</file>
+        <file>quick/GridSeparator.qml</file>
+        <file>quick/Grid.qml</file>
+        <file>ArcSlider.qml</file>
+        <file>CircularColorPicker.qml</file>
+        <file>DragableGridView.qml</file>
+        <file>MDText.qml</file>
+        <file>MultiRangeSlider.qml</file>
+        <file>qmldir</file>
+        <file>Qomponent.qml</file>
+        <file>Tiltable.qml</file>
+        <file>UITour.qml</file>
+        <file>WideRow.qml</file>
+        <file>WindowedColorPicker.qml</file>
+        <file>WinToolTip.qml</file>
+        <file>scripts.js</file>
+        <file>Qomponent.qmltypes</file>
+        <file>base/DashedLine.qml</file>
+        <file>TextAnimation.qml</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,29 @@
+module Qomponent
+typeinfo qomponent.qmltypes
+
+Scripts             0.1 scripts.js
+
+singleton Qomponent 0.1 Qomponent.qml
+
+BoxShadow           0.1 base/BoxShadow.qml
+FastShadow          0.1 base/FastShadow.qml
+DashedLine          0.1 base/DashedLine.qml
+Guide               0.1 base/Guide.qml
+Pie                 0.1 base/Pie.qml
+
+Grid                0.1 quick/Grid.qml
+GridSeparator       0.1 quick/GridSeparator.qml
+
+WColorPicker        0.1 WColorPicker.qml
+WToolTip            0.1 WToolTip.qml
+UITour              0.1 UITour.qml
+
+VSRow               0.1 VSRow.qml
+ArcSlider           0.1 ArcSlider.qml
+CircularColorPicker 0.1 CircularColorPicker.qml
+DragableGridView    0.1 DragableGridView.qml
+MultiRangeSlider    0.1 MultiRangeSlider.qml
+GirdSeparator       0.1 GirdSeparator.qml
+TextAnimation       0.1 TextAnimation.qml
+Tiltable            0.1 Tiltable.qml
+MDText              0.1 MDText.qml
