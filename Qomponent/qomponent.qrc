@@ -9,7 +9,7 @@
         <file>ArcSlider.qml</file>
         <file>CircularColorPicker.qml</file>
         <file>DragableGridView.qml</file>
-        <file>MDText.qml</file>
+        <file>MiniMarkdown.qml</file>
         <file>MultiRangeSlider.qml</file>
         <file>qmldir</file>
         <file>Qomponent.qml</file>

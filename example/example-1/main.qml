@@ -13,14 +13,14 @@ ApplicationWindow {
     visible: true
 
     palette {
-        base: "#48abff"
-        text: "#eee"
 
         button: "#48abff"
         buttonText: "#fff"
         highlight: "#5c75f4"
         highlightedText: "#fff"
 
+        base: "#1d1c21"
+        text: "#eee"
         window: '#1d1c21'
         windowText: "#eee"
     }
@@ -29,8 +29,6 @@ ApplicationWindow {
         width: 20; height: width; text: '\ue000'
         font.family: 'knight'
         onClicked: {
-            window.palette.base = palette.button
-            window.palette.text = palette.buttonText
             window.palette.button = palette.button
             window.palette.buttonText = palette.buttonText
             window.palette.highlight = Qt.darker(palette.button, 1.5)
@@ -41,6 +39,8 @@ ApplicationWindow {
         width: 20; height: width; text: '\ue000'
         font.family: 'knight'
         onClicked: {
+            window.palette.base = palette.button
+            window.palette.text = palette.buttonText
             window.palette.window = palette.button
             window.palette.windowText = palette.buttonText
         }
@@ -78,6 +78,7 @@ ApplicationWindow {
         padding: 5
         spacing: 5
         width: 780; height: window.height
+        flow: Grid.LeftToRight
 
         Column {
             width: 250; spacing: 5
@@ -92,34 +93,62 @@ ApplicationWindow {
             }
 
             Title {
-                text: 'Behavior on Text'
+                text: 'TextAnimation'
                 width: parent.width
             }
 
             Text {
                 id: txt
+                width: parent.width
                 color: palette.windowText
-                text: "Sample"
+                text: "Text Animation"
                 font.family: 'consolas'
+                horizontalAlignment: Text.AlignHCenter
+            }
 
-                TextAnimation {
-                    id: tanim
-                    property int idx: 0
-                    target: txt
-                    property: "text"
-                    duration: 1000
-                    to: ["this is","a sample text",
-                         "to show have TextAnimation works."][idx]
-                }
+            TextAnimation {
+                id: tanim
+                target: txt
+                property: "text"
+                duration: 1000
+            }
 
-                Timer {
-                    running: true; repeat: true; interval: 2100
-                    onTriggered: {
-                        tanim.restart();
-                        tanim.idx = (tanim.idx+1)%3;
-                    }
+            Timer {
+                property int idx: 0
+                running: !tanim.running; repeat: true; interval: 5000
+                onTriggered: {
+                    const strs = ["First, solve the problem.\n Then, write the code. (John Johnson)",
+                                  "Test for TextAnimation Component.\n(SMR)",
+                                  "Good code is its own best documentation.\n(Steve McConnell)",
+                                  "Knowledge is power.\n(Francis Bacon)"]
+                    tanim.to = strs[idx];
+                    idx = (idx + 1) % 4;
+                    tanim.restart();
                 }
             }
+
+            Title {
+                text: 'Mini Markdown'
+                width: parent.width
+            }
+
+            MiniMarkdown {
+                width: parent.width
+                text: "# h1\n" +
+                      "## h2\n" +
+                      "### h3\n" +
+                      "#### h4\n" +
+                      "<a href='https://smr76.github.io'>link</a>\n" +
+                      "```\n" +
+                      "let x = \n" +
+                      "markdown\n" +
+                      "```\n";
+                Guide{}
+            }
+        }
+
+        Column {
+            width: 250; spacing: 5
         }
     }
 }

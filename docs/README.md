@@ -1,6 +1,6 @@
 # Documentation
 
-> **Notes**<br>
+> **Note**<br>
 > This file only offers documentation for the additional properties of components given by the **Qomponent tools**.<br>
 > On [doc.qt.io](https://doc.qt.io/qt-6/qtquick-controls2-qmlmodule.html), you can find the documentation for the remaining components.
 > <br>&nbsp;

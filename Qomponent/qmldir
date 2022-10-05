@@ -26,4 +26,4 @@ MultiRangeSlider    0.1 MultiRangeSlider.qml
 GirdSeparator       0.1 GirdSeparator.qml
 TextAnimation       0.1 TextAnimation.qml
 Tiltable            0.1 Tiltable.qml
-MDText              0.1 MDText.qml
+MiniMarkdown        0.1 MiniMarkdown.qml

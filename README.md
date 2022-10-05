@@ -1,17 +1,17 @@
 # QML Qomponent
-<p><img src="https://img.shields.io/github/v/tag/smr76/qloudy?sort=semver&label=version" alt="version tag">
+<p><img src="https://img.shields.io/github/v/tag/smr76/qomponent?sort=semver&label=version" alt="version tag">
 <img src="https://img.shields.io/github/license/smr76/qomponent?color=36b245" alt="license">
 <a href="https://www.blockchain.com/bch/address/bitcoincash:qrnwtxsk79kv6mt2hv8zdxy3phkqpkmcxgjzqktwa3">
 <img src="https://img.shields.io/badge/BCH-Donate-f0992e?logo=BitcoinCash&logoColor=f0992e" alt="BCH donate"></a></p>
 
-**Qomponent** QtQuick2/QML tools.<br><br>
+**Qomponent** QtQuick2/QML tools.
 
-**Qomponent** is made up of variation components from my past projects. So I thought it would be a good idea to group them all together as one module.
+**Qomponent** is made up of variation components from my past projects. So I thought it would be a good idea to group them all together as a single module.
 
-*If you liked these components, please consider givin a star :star2:.*
+*If you liked these components, please consider givin a star :star2:*
 
 ## How to use
-> **Notes**<br>
+> **Note**<br>
 > Components in this repository are still in development, thus changes over each update may be significant.
 > <br>&nbsp;
 
