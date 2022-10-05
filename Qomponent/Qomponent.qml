@@ -7,5 +7,8 @@ pragma Singleton
 import QtQuick 2.15
 
 QtObject {
-
+    id: root
+    function alpha(c, a) {
+        return Qt.rgba(c.r,c.g,c.b,a);
+    }
 }
