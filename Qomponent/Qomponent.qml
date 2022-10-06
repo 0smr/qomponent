@@ -6,9 +6,18 @@ pragma Singleton
 
 import QtQuick 2.15
 
-QtObject {
+Item {
     id: root
-    function alpha(c, a) {
-        return Qt.rgba(c.r,c.g,c.b,a);
+
+    function alphaColor(c, a) {
+        return "#fff";
     }
+
+    function copy(text) {
+        dummytedit.text = text;
+        dummytedit.selectAll();
+        dummytedit.copy();
+    }
+
+    TextEdit { id: dummytedit; visible: false; parent: null }
 }

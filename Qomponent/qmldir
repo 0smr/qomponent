@@ -20,7 +20,7 @@ UITour              0.1 UITour.qml
 
 VSRow               0.1 VSRow.qml
 ArcSlider           0.1 ArcSlider.qml
-CircularColorPicker 0.1 CircularColorPicker.qml
+CColorPicker        0.1 CColorPicker.qml
 DragableGridView    0.1 DragableGridView.qml
 MultiRangeSlider    0.1 MultiRangeSlider.qml
 GirdSeparator       0.1 GirdSeparator.qml

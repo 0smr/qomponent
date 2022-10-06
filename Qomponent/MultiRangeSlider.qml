@@ -110,7 +110,8 @@ Control {
 
             DashedLine {
                 x: -2; y: parent.height - height
-                width: parent.width + 4; height: control.height/3
+                width: parent.width + 4 + parent.width % 2
+                height: control.height/3
                 color: palette.windowText
                 num: Math.floor(width / 2)
             }

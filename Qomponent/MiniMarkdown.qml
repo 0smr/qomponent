@@ -21,14 +21,18 @@ Control {
         markdown = markdown.replace(/^#{4}\s+?(.+?)$/gm, "<h4>$1</h4>"); // 4# h4
         markdown = markdown.replace(/^#{5}\s+?(.+?)$/gm, "<h5>$1</h5>"); // 5# h5
         markdown = markdown.replace(/^#{6}\s+?(.+?)$/gm, "<h6>$1</h6>"); // 6# h6
+
         markdown = markdown.replace(/\[(.*?)\]\((.+?)\)/g, "<a href='$2' target='_blank'>$1</a>"); // [alt](url) link
+
         markdown = markdown.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>"); // **text** bold
         markdown = markdown.replace(/\*(.+?)\*/g, "<i>$1</i>"); // *text* italic
-        markdown = markdown.replace(/\```((\s|\S)+?)\```/g, "<code><a href='#code'><pre>$1</pre></a></code>"); // ```text``` code block
-        markdown = markdown.replace(/\`(.+?)\`/g, "<code>$1</code>"); // `text` code
         markdown = markdown.replace(/_(.+?)_/g, "<i>$1</i>"); // _text_ emphasize
-        let lists = markdown.match(/^(\s*([-\+\*]\s.+(\r?\n)?)+)$/gm);
 
+        //```text``` code block
+        markdown = markdown.replace(/\```((\s|\S)+?)\```/g, "<code><a href='#code $1'><pre>$1</pre></a></code>");
+        markdown = markdown.replace(/\`(.+?)\`/g, "<code><a href='#code $1'>$1</a></code>"); // `text` code
+
+        let lists = markdown.match(/^(\s*([-\+\*]\s.+(\r?\n)?)+)$/gm);
         if(lists) {
             lists.forEach(list => {
                 const htmlList = list.replace(/^\s*[-\+\*]\s(.+(\r?\n)?)$/gm, "<li>$1</li>");
@@ -40,13 +44,17 @@ Control {
         return markdown.trim();
     }
 
-    contentItem: TextArea {
+    background: Rectangle {
+        color: 'transparent'
+        border{width:1; color:palette.text}
+        radius: 5
+        opacity: hoverhandler.hovered ? 0.3 : 0
+    }
+
+    contentItem: TextEdit {
         id: textarea
 
         text: '<style>' + control.css + '</style>' + markdownParser(control.text)
-
-        selectionColor: Qomponent.alpha(palette.text, 0.1)
-        selectedTextColor: palette.base
 
         padding: 7
         topPadding: 12
@@ -58,20 +66,67 @@ Control {
         textFormat: Text.RichText
         horizontalAlignment: Text.AlignJustify
 
+        persistentSelection: true
+
+        color: palette.text
+        selectionColor: palette.highlight
+
         onLinkActivated: {
-            if(link !== "#code") Qt.openUrlExternally(link)
-            else {
-                copyLabel.text = "Copied!"
-                dummytextedit.text = link
+            if(link.startsWith("#code")) {
+                copyLabel.text = "Copied!";
+                Qomponent.copy(link.slice(6));
+            } else {
+                Qt.openUrlExternally(link);
             }
         }
 
         HoverHandler {
             id: hoverhandler
-            cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+            cursorShape: parent.hoveredLink ? Qt.IBeamCursor : Qt.ArrowCursor
         }
 
-        TextEdit { id: dummytextedit }
+        TapHandler {
+            acceptedButtons: Qt.RightButton
+            onSingleTapped: (e, btn) => {
+                rightClick.link = textarea.hoveredLink;
+                rightClick.open();
+                rightClick.x = e.position.x;
+                rightClick.y = e.position.y;
+            }
+        }
+    }
+
+    Menu {
+        id: rightClick
+        property string link: ""
+        width: 105; height: contentHeight
+        palette.light: control.palette.highlight
+
+        MenuItem {
+            height: enabled * 20
+            enabled: textarea.selectedText.length
+            visible: enabled
+            text: "copy selected text"
+            onTriggered: {textarea.copy(); textarea.deselect()}
+        }
+
+        MenuItem {
+            height: enabled * 20
+            text: "copy text"
+            onTriggered: {
+                textarea.selectAll();
+                textarea.copy();
+                textarea.deselect();
+            }
+        }
+
+        MenuItem {
+            height: enabled * 20
+            enabled: rightClick.link
+            visible: enabled
+            text: "copy link"
+            onTriggered:Qomponent.copy(rightClick.link)
+        }
     }
 
     Label {
@@ -80,19 +135,18 @@ Control {
         padding: 5
         text: "Copy"
         font.pointSize: 7
-        opacity: textarea.hoveredLink == '#code'
+        opacity: textarea.hoveredLink.startsWith("#code")
         background: Rectangle {
             radius: 2; opacity: 0.5
             border { width:1; color: palette.windowText }
-            color: copyLabel.text == "Copy" ?
-                       "transparent" : palette.windowText
+            color: copyLabel.text == "Copy" ? "transparent" : palette.windowText
         }
 
-        Behavior on opacity { NumberAnimation{} }
+        Behavior on opacity { NumberAnimation {} }
         Timer {
-            interval: 1300
+            interval: 2500
             running: parent.text !== "Copy"
-            onTriggered: parent.text = "Copy";
+            onTriggered: parent.text = "Copy"
         }
     }
 }

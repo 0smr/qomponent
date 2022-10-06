@@ -7,7 +7,7 @@
         <file>quick/GridSeparator.qml</file>
         <file>quick/Grid.qml</file>
         <file>ArcSlider.qml</file>
-        <file>CircularColorPicker.qml</file>
+        <file>CColorPicker.qml</file>
         <file>DragableGridView.qml</file>
         <file>MiniMarkdown.qml</file>
         <file>MultiRangeSlider.qml</file>
