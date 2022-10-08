@@ -14,11 +14,14 @@ Item {
     property alias font: tooltiptext.font
     property alias contentItem: tooltiptext
 
-    onVisibleChanged: if(visible) timer.restart();
+    onVisibleChanged: {
+        timer.restart();
+    }
 
     Timer {
         id: timer
         interval: 500
+        running: control.visible
 
         onTriggered: {
             let coord = mapToGlobal(0, 0);

@@ -15,12 +15,13 @@
         <file>Qomponent.qml</file>
         <file>Tiltable.qml</file>
         <file>UITour.qml</file>
-        <file>WideRow.qml</file>
-        <file>WindowedColorPicker.qml</file>
-        <file>WinToolTip.qml</file>
+        <file>VRow.qml</file>
+        <file>EyeDropper.qml</file>
+        <file>WToolTip.qml</file>
         <file>scripts.js</file>
         <file>Qomponent.qmltypes</file>
         <file>base/DashedLine.qml</file>
         <file>TextAnimation.qml</file>
+        <file>base/UITourItem.qml</file>
     </qresource>
 </RCC>

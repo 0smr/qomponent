@@ -9,8 +9,8 @@ import QtQuick 2.15
 Item {
     id: root
 
-    function alphaColor(c, a) {
-        return "#fff";
+    function alpha(c, a) {
+        return Qt.rgba(c.r,c.g,c.b,a);
     }
 
     function copy(text) {
