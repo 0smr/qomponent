@@ -23,5 +23,7 @@
         <file>base/DashedLine.qml</file>
         <file>TextAnimation.qml</file>
         <file>base/UITourItem.qml</file>
+        <file>shader/dashed-lines.glsl</file>
+        <file>shader/pi.glsl</file>
     </qresource>
 </RCC>

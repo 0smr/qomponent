@@ -49,13 +49,15 @@ Control {
 
             contentItem: Rectangle {
                 color: palette.button
-                radius: width
-                smooth: true
-                border.width: parent.hovered ? 1 : 0
-                border.color: palette.windowText
+                border.width: 0.5
+                border.color: parent.hovered ? palette.windowText : palette.window
+                rotation: -45
+            }
+
+            background: Item {
                 Rectangle {
                     y: parent.height - 2; x: (parent.width - width)/2
-                    height: 7; width: 2; color: palette.button
+                    height: 7; width: 1.5; color: palette.button
                     radius: width
                 }
             }
@@ -82,7 +84,7 @@ Control {
     contentItem: Column {
         Item {
             id: container
-            height: control.height * 0.5
+            height: control.height * 0.4
             width: parent.width
         }
 
@@ -98,7 +100,7 @@ Control {
                     }
                 }
                 onPressAndHold: {
-                    obj = handleCmp.createObject(container, {x: mouse.x - height/2, y: mouse.y});
+                    obj = handleCmp.createObject(container, {x: mouse.x - container.height/2, y: mouse.y});
                 }
                 onReleased: {
                     if(mouse.y < height * 0.3 && obj) {
@@ -113,7 +115,7 @@ Control {
                 width: parent.width + 4 + parent.width % 2
                 height: control.height/3
                 color: palette.windowText
-                num: Math.floor(width / 2)
+                originColor: palette.highlight
             }
         }
     }
