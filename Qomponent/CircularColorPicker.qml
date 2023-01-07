@@ -8,11 +8,17 @@ import QtQuick.Controls 2.15
 Control {
     id: control
 
+    /** @property {real} strokeWidth, Indicates colorpicker stroke width. */
     property real strokeWidth: width * 0.15
+    /** @property {real} hsvHue, Indicates selected hsvHue value. */
     readonly property alias hsvHue: huema.angle
+    /** @property {real} hsvValue,  Indicates selected hsvValue value. */
     readonly property alias hsvValue: valueSlider.value
+    /** @property {real} hsvSaturation,  Indicates selected hsvSaturation value. */
     readonly property alias hsvSaturation: saturationSlider.value
+    /** @property {real} hsvAlpha,  Indicates selected hsvAlpha value. */
     readonly property alias hsvAlpha: alphaSlider.value
+    /** @property {color} color, readonly selected color value. */
     readonly property color color: Qt.hsva(hsvHue, hsvSaturation, hsvValue, hsvAlpha)
 
     contentItem: Item {

@@ -7,7 +7,7 @@
         <file>quick/GridSeparator.qml</file>
         <file>quick/Grid.qml</file>
         <file>ArcSlider.qml</file>
-        <file>CColorPicker.qml</file>
+        <file>CircularColorPicker.qml</file>
         <file>DragableGridView.qml</file>
         <file>MiniMarkdown.qml</file>
         <file>MultiRangeSlider.qml</file>
@@ -17,7 +17,7 @@
         <file>UITour.qml</file>
         <file>VRow.qml</file>
         <file>EyeDropper.qml</file>
-        <file>WToolTip.qml</file>
+        <file>ToolTipPlus.qml</file>
         <file>scripts.js</file>
         <file>Qomponent.qmltypes</file>
         <file>base/DashedLine.qml</file>

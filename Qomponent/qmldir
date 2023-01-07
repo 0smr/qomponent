@@ -17,12 +17,13 @@ Grid                0.1 quick/Grid.qml
 GridSeparator       0.1 quick/GridSeparator.qml
 
 # EyeDropper        0.1 EyeDropper.qml # TODO: add cpp side
-WToolTip            0.1 WToolTip.qml
+ToolTipPlus         0.1 ToolTipPlus.qml
 UITour              0.1 UITour.qml
+MiniKeyboard        0.1 MiniKeyboard.qml # Mini virtual keyboard.
 
 VRow                0.1 VRow.qml # Variant Spacing Row
 ArcSlider           0.1 ArcSlider.qml
-CColorPicker        0.1 CColorPicker.qml # Circular color picker
+CircularColorPicker 0.1 CircularColorPicker.qml # Circular color picker
 DragableGridView    0.1 DragableGridView.qml
 MultiRangeSlider    0.1 MultiRangeSlider.qml
 GirdSeparator       0.1 GirdSeparator.qml # This component is associated with "quick/Grid"

@@ -32,6 +32,18 @@ const _qclamp = function(min, max) {
     return Math.max(min, Math.min(this, max));
 }
 
+/**
+ * @abstract
+ *  Remove characters at given index.
+ * @param {Number} index
+ * @param {Number} count, number of characters should be removed.
+ * @returns manipulated string.
+ */
+const _qsplice = function(index, count = 1, ...items) {
+    return [this.substr(0, index), ...items, this.substr(Math.max(index, index + count))].join('');
+}
+
 Array.prototype.qget = _qget;
 Object.prototype.qget = _qget;
 Number.prototype.qclamp = _qclamp;
+String.prototype.qsplice = _qsplice;
