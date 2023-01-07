@@ -25,5 +25,9 @@
         <file>base/UITourItem.qml</file>
         <file>shader/dashed-lines.glsl</file>
         <file>shader/pi.glsl</file>
+        <file>MiniKeyboard.qml</file>
+        <file>shader/color-ring.glsl</file>
+        <file>shader/focus.glsl</file>
+        <file>base/FocusEffect.qml</file>
     </qresource>
 </RCC>

@@ -4,157 +4,166 @@
 
 import QtQuick 2.15
 import QtQuick.Window 2.15
+import QtQuick.Templates 2.15 as T
 
-Item {
+import Qomponent 0.1
+
+T.Control {
     id: control
 
+    font { bold: true; pointSize: 10 }
+
+    /** @property {Array<UITourItem>} list, provides a list of UI tour objects that will be displayed sequentially. */
     default property list<UITourItem> items
-    readonly property alias index: window.index
+    /** @property {real} index, An alias to displayed item index. */
+    readonly property alias index: internals.index
+    /** @property {bool} external, set parent as external fullscreen window. */
+    property bool external: false
+    /** @property {Text} text, text item delegate. */
+    property Component textItem: Text {
+        width: implicitWidth
+        height: implicitHeight
 
-    property alias window: window
-    property alias text: text
-
-    function start(index = 0) {
-        if(index < items.length || window.index < items.length)
-        window.showFullScreen();
-        window.showNextMessage(index);
+        color: palette.window
+        textFormat: Text.RichText
+        text: message
+        font: control.font
     }
 
-    function skip() { window.showNextMessage(); }
+    // TODO: add transitions.
+    // property Transition textEnter: Transition {}
+
+    /**
+     * @brief Starts the UI Tour from the specified index; if no index is provided, it starts from the beginning.
+     * @method start
+     * @param {Number} index
+     */
+    function start(index = 0) {
+        if(index < items.length || internals.index < items.length) {
+            popup.open();
+        }
+        internals.next(index);
+    }
+
+    /**
+     * @method skip, Skip one item.
+     * @param {Number} index
+     */
+    function next() {
+        internals.next();
+    }
+
+    /**
+     * @method skipAll, Skip all items at once.
+     * @param {Number} index
+     */
     function skipAll() {
-        window.index = Number.MAX_VALUE;
-        window.close();
+        internals.index = Number.MAX_VALUE;
+        internals.close();
+    }
+
+    QtObject {
+        id: internals
+        property int index: -1
+        property int radius: (items ?? {}).qget([index, "radius"], 25)
+        property int alignment: (items ?? {}).qget([index, "align"], Qt.AlignLeft)
+        property point center: Qt.point(0, 0)
+        property string currentText
+        property Window window: control.Window.window
+
+        function next(_index = undefined) {
+            index = _index ?? index + 1;
+            if(index < items.length) {
+                const target = items[index].target;
+                const point = control.external ? target.mapToGlobal(target.width/2 ,target.height/2) :
+                                                 target.mapToItem(popup.parent, target.width/2 ,target.height/2);
+                center = point;
+                show(items[index].text, point, alignment);
+            } else {
+                index = -1;
+                currentText = ""
+                popup.close();
+            }
+        }
+
+        function show(text: string, _point: point, alignment: int) {
+            currentText = text;
+            popup.coordinate = alignTo(_point, alignment);
+        }
+
+        function alignTo(coord: point, alignment: int) {
+            const xradius = radius + popup.contentWidth /2 + 10;
+            const yradius = radius + popup.contentHeight/2 + 10;
+
+            const coordinates = {
+                1 : Qt.point(coord.x - xradius, coord.y), // Qt.AlignLeft
+                2 : Qt.point(coord.x + xradius, coord.y), // Qt.AlignRight
+                32: Qt.point(coord.x, coord.y - yradius), // Qt.AlignTop
+                64: Qt.point(coord.x, coord.y + yradius), // Qt.AlignBottom
+            }
+
+            return coordinates[alignment] ?? coord;
+        }
+    }
+
+    Connections {
+        target: control.items.qget([index, "target"], null)
+        ignoreUnknownSignals: true
+        function onClicked() {
+            internals.currentText = ""
+            internals.next();
+        }
+    }
+
+    T.Popup {
+        id: popup
+
+        property point coordinate: Qt.point(0, 0)
+
+        x: coordinate.x - contentWidth / 2
+        y: coordinate.y - contentHeight / 2
+        closePolicy: T.Popup.CloseOnEscape
+        parent: control.external ? _window.contentItem : internals.window.contentItem
+        modal: false; dim: true
+
+        contentItem: Loader {
+            property string message: internals.currentText
+
+            sourceComponent: control.textItem
+
+            NumberAnimation on opacity {
+                running: internals.currentText
+                from: 0; to: 0.8; duration: 600
+            }
+        }
+
+        T.Overlay.modeless: FocusEffect {
+            id: focusEffect
+            center: internals.center
+            color: control.palette.windowText
+            opacity: visible ? 0.4 : 0
+
+            NumberAnimation on opacity {
+                running: internals.currentText
+                from: 0; to: 0.4; duration: 500
+                alwaysRunToEnd: true
+            }
+
+            NumberAnimation on radius {
+                running: internals.currentText
+                from: 130; to: internals.radius; duration: 500
+                easing.type: Easing.InSine
+                alwaysRunToEnd: true
+            }
+        }
     }
 
     Window {
-        id: window
-
-        width: Screen.width
-        height: Screen.height
-
+        id: _window
         color: 'transparent'
-        visibility: Window.Hidden
-        flags: Qt.ToolTip |
-               Qt.WA_DeleteOnClose |
-               Qt.WindowStaysOnTopHint |
-               Qt.WindowTransparentForInput
-
-        /**
-         * Array of {target: Item, text: "", align: Qt.AlignLeft}}
-         */
-        property int index: -1
-        property int radius: (items[index] ?? {radius:25}).radius
-
-        function showNextMessage(startIndex = undefined) {
-            index = startIndex ?? index + 1;
-            if(index < items.length) {
-                const alignment = items[index].align;
-                const message = items[index].text;
-                const targetItem = items[index].target;
-                const point = targetItem.mapToGlobal(targetItem.width/2 ,targetItem.height/2);
-
-                focusIn(point);
-                showMessage(message, point, alignment);
-            } else {
-                window.close();
-            }
-        }
-
-        function showMessage(message, point, alignment) {
-            text.text = message;
-            const coord = alignTextTo(point, alignment);
-            text.x = coord.x;
-            text.y = coord.y;
-            messageAnim.restart();
-        }
-
-        function alignTextTo(point, alignment) {
-            point.x -= text.implicitWidth / 2;
-            point.y -= text.implicitHeight / 2;
-
-            const xshifter = window.radius + text.implicitWidth / 2 + 20;
-            const yshifter = window.radius + text.implicitHeight / 2 + 20;
-
-            switch(alignment) {
-            case Qt.AlignLeft:
-                return { x: point.x - xshifter, y: point.y };
-            case Qt.AlignRight:
-                return { x: point.x + xshifter, y: point.y };
-            case Qt.AlignTop:
-                return { x: point.x, y: point.y - yshifter };
-            case Qt.AlignBottom:
-                return { x: point.x, y: point.y + yshifter };
-            default:
-                return point;
-            }
-        }
-
-        function focusIn(point) {
-            shader.center = Qt.vector2d(point.x, point.y);
-            focusAnim.restart();
-        }
-
-        Item { id: garbage }
-
-        Connections {
-            enabled: window.index < items.length
-            target: (control.items[window.index] || {}).target || garbage
-            ignoreUnknownSignals: true
-
-            function onClicked() { window.showNextMessage(); }
-        }
-
-        ParallelAnimation {
-            id: focusAnim
-            NumberAnimation {
-                target: shader; properties: 'radius'
-                from: 200; to: window.radius; duration: 300
-                easing.type: Easing.InSine
-            }
-            NumberAnimation {
-                target: shader; properties: 'opacity'
-                from: 0.1; to: 0.4 ; duration: 300
-            }
-        }
-
-        NumberAnimation {
-            id: messageAnim
-            target: text; properties: 'opacity'
-            from: 0; to: 0.8; duration: 600
-        }
-
-        ShaderEffect {
-            id: shader
-            opacity: 0.4
-            anchors.fill: parent
-            property real radius
-            property vector2d center
-            readonly property real _radius: radius/width
-            readonly property real _smooth: 0.5/width
-            readonly property vector2d _center: Qt.vector2d(center.x/width, center.y/width)
-            readonly property vector2d _ratio: Qt.vector2d(width / Math.max(width, height),
-                                                           height/ Math.max(width, height));
-            fragmentShader: "
-                varying highp vec2 qt_TexCoord0;
-                uniform highp float qt_Opacity;
-                uniform highp vec2 _ratio;
-                uniform highp vec2 _center;
-                uniform highp float _radius;
-                uniform highp float _smooth;
-
-                void main() {
-                    highp vec2 coord = _ratio * qt_TexCoord0;
-                    highp float ring = smoothstep(0.0, _smooth, distance(coord, _center) - _radius);
-                    gl_FragColor = vec4(0,0,0,1) * ring * qt_Opacity;
-                }"
-        }
-
-        Text {
-            id: text
-            color: 'white'
-            textFormat: Text.RichText
-            font.bold: true
-            font.pointSize: 11
-        }
+        width: Screen.width; height: Screen.height
+        visible: control.external && popup.visible && internals.index >= 0
+        flags: Qt.FramelessWindowHint | Qt.WA_DeleteOnClose |
+               Qt.WindowStaysOnTopHint | Qt.WindowTransparentForInput
     }
 }

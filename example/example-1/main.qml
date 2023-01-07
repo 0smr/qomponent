@@ -209,7 +209,7 @@ ApplicationWindow {
                 UITour {
                     id: uitour
                     UITourItem {
-                        target: target1; align: Qt.AlignLeft // default also is left
+                        target: target1; align: Qt.AlignRight // default also is left
                         text: "Please click here (Button)"
                     }
                     UITourItem {
@@ -218,10 +218,20 @@ ApplicationWindow {
                     }
                 }
 
+                Row {
+                    spacing: 5
                 Button {
                     width: 50; height: 20
                     text: 'start'
-                    onClicked: { uitour.start(0) }
+                        onClicked: uitour.start(0);
+                    }
+
+                    Button {
+                        checkable: true
+                        width: 120; height: 20
+                        text: 'exnternal window'
+                        onClicked: uitour.external = checked;
+                    }
                 }
 
                 Button {

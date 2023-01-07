@@ -5,8 +5,6 @@
 import QtQuick 2.15
 
 ShaderEffect {
-    y: 50; width: parent.width; height: 25
-
     property real spacing: 2
     property real lineWidth: 1
     property real lineHeight: 0.5
