@@ -2,15 +2,20 @@
 // SPDX-License-Identifier: MIT
 // https://smr76.github.io
 
-import QtQuick 2.15 as QQ215
+import QtQuick 2.15 as QQ
 
-QQ215.Grid {
+QQ.Grid {
     id: control
 
-    property int preferredRows: 1
+    property int partition: 1
+    readonly property real vertical: flow == QQ.Grid.TopToBottom
+    readonly property real preferredItemSize: {
+        const itemInRow = children.length/partition;
+        return (vertical ? height : width)/itemInRow - spacing/itemInRow;
+    }
 
-    flow: QQ215.Grid.TopToBottom
-    columns: flow == QQ215.Grid.TopToBottom ? preferredRows : -1
-    rows: flow == QQ215.Grid.TopToBottom ? -1 : preferredRows
+    flow: QQ.Grid.TopToBottom
+    columns: flow == QQ.Grid.TopToBottom ? partition : -1
+    rows: flow == QQ.Grid.TopToBottom ? -1 : partition
     layoutDirection: Qt.LeftToRight
 }

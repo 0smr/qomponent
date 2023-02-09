@@ -16,7 +16,7 @@ Grid                0.1 quick/Grid.qml
 GridSeparator       0.1 quick/GridSeparator.qml
 
 # EyeDropper        0.1 EyeDropper.qml # TODO: add cpp side
-WToolTip            0.1 WToolTip.qml
+ToolTipPlus         0.1 ToolTipPlus.qml
 UITour              0.1 UITour.qml
 
 VRow                0.1 VRow.qml # Variant Spacing Row

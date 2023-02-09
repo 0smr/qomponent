@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: MIT
 // https://smr76.github.io
 
-import QtQuick              2.15
-import QtQuick.Controls     2.2
-import QtQuick.Layouts      1.15
-import QtGraphicalEffects   1.0
-import QtQml.Models         2.12
+import QtQuick 2.15
+import QtQuick.Controls 2.2
+import QtQuick.Layouts 1.15
+import QtGraphicalEffects 1.0
+import QtQml.Models 2.12
 
 Control {
     id: control
@@ -114,7 +114,7 @@ Control {
                     }
                 }
             }
-            // FIXME: update list model data doesn't effect the repeater
+            // BUG: update list model data doesn't effect the repeater
             repeater.model = null
             repeater.model = listModel
         }

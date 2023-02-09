@@ -17,7 +17,7 @@
         <file>UITour.qml</file>
         <file>VRow.qml</file>
         <file>EyeDropper.qml</file>
-        <file>WToolTip.qml</file>
+        <file>ToolTipPlus.qml</file>
         <file>scripts.js</file>
         <file>Qomponent.qmltypes</file>
         <file>base/DashedLine.qml</file>

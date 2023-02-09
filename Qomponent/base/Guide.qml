@@ -24,7 +24,7 @@ Rectangle {
         y: (ctrl.height - height) * (ctrl.c / 2)
         width: childrenRect.width
         height: childrenRect.height
-        visible: true; opacity: 0.7; radius: 3
+        opacity: 0.7; radius: 3
 
         Text { text: "w: %1\nh: %2".arg(ctrl.width).arg(ctrl.height); font.pixelSize: 10; padding: 3 }
         Timer { running: parent.visible; interval: 500; onTriggered: parent.visible = false }
