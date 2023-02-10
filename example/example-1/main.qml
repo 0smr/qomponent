@@ -10,7 +10,7 @@ ApplicationWindow {
 
     property real pagewidth: 255
 
-    width: pagewidth
+    width: pagewidth * 2
     height: 420
     visible: true
 
@@ -177,7 +177,9 @@ ApplicationWindow {
 
             GridSeparator {}
 
-            Column {
+            Grid {
+                flow: Grid.TopToBottom
+                horizontalItemAlignment: Qt.AlignHCenter
                 width: pagewidth - 10; spacing: 5
 
                 Title {
@@ -194,7 +196,7 @@ ApplicationWindow {
                     width: parent.width
                 }
 
-                CColorPicker { id: cp; x: 15; width: parent.width - 30; height: width }
+                CircularColorPicker { id: cp; x: 15; width: 130; height: width }
             }
 
             GridSeparator {}
@@ -209,7 +211,7 @@ ApplicationWindow {
                 UITour {
                     id: uitour
                     UITourItem {
-                        target: target1; align: Qt.AlignLeft // default also is left
+                        target: target1; align: Qt.AlignRight // default also is left
                         text: "Please click here (Button)"
                     }
                     UITourItem {
@@ -218,10 +220,20 @@ ApplicationWindow {
                     }
                 }
 
-                Button {
-                    width: 50; height: 20
-                    text: 'start'
-                    onClicked: { uitour.start(0) }
+                Row {
+                    spacing: 5
+                    Button {
+                        width: 50; height: 20
+                        text: 'start'
+                        onClicked: uitour.start(0);
+                    }
+
+                    Button {
+                        checkable: true
+                        width: 120; height: 20
+                        text: 'exnternal window'
+                        onClicked: uitour.external = checked;
+                    }
                 }
 
                 Button {
@@ -254,7 +266,7 @@ ApplicationWindow {
                     text: "Hover me"
 
                     HoverHandler { id: hh }
-                    WToolTip {
+                    ToolTipPlus {
                         x: hh.point.position.x - 20
                         y: hh.point.position.y + 15
                         text: "Hey, I'm Tooltip."
@@ -303,6 +315,41 @@ ApplicationWindow {
                             xAxis.maximum: parent.parent.width
                             cursorShape: Qt.SizeHorCursor
                         }
+                    }
+                }
+
+                Title {
+                    text: "Mini Keyboard"
+                    opacity: 1; font.bold: false
+                }
+
+                Grid {
+                    flow: Grid.LeftToRight
+                    preferredRows: 2
+
+                    component TField: TextField {
+                        width: 120; height: 25
+                    }
+
+                    spacing: 4
+
+                    MiniKeyboard { enabled: true }
+
+                    TField {
+                        inputMethodHints: Qt.ImhDigitsOnly
+                        placeholderText: "digit only"
+                    }
+                    TField {
+                        inputMethodHints: Qt.ImhLatinOnly
+                        placeholderText: "alphabet only"
+                    }
+                    TField {
+                        inputMethodHints: Qt.ImhPreferUppercase
+                        placeholderText: "prefer uppercase"
+                    }
+                    TField {
+                        inputMethodHints: Qt.ImhLowercaseOnly
+                        placeholderText: "lowercase only"
                     }
                 }
             }

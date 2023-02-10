@@ -90,6 +90,7 @@ Control {
         selectionColor: Qomponent.alpha(palette.highlight, 0.4)
         selectedTextColor: palette.highlightedText
 
+        onLinkHovered: if(hoveredLink) copyLabel.text = "Copy";
         onLinkActivated: {
             if(link.startsWith("#code")) {
                 copyLabel.text = "Copied!";
@@ -108,9 +109,7 @@ Control {
             acceptedButtons: Qt.RightButton
             onSingleTapped: (e, btn) => {
                 rightClick.link = textarea.hoveredLink;
-                rightClick.open();
-                rightClick.x = e.position.x;
-                rightClick.y = e.position.y;
+                rightClick.popup();
             }
         }
     }
@@ -160,12 +159,6 @@ Control {
             border { width:1; color: palette.windowText }
             color: copyLabel.text == "Copy" ? "transparent" : palette.button
         }
-
         Behavior on opacity { NumberAnimation {} }
-        Timer {
-            interval: 2500
-            running: parent.text !== "Copy"
-            onTriggered: parent.text = "Copy"
-        }
     }
 }

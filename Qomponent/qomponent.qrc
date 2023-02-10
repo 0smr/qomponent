@@ -7,7 +7,7 @@
         <file>quick/GridSeparator.qml</file>
         <file>quick/Grid.qml</file>
         <file>ArcSlider.qml</file>
-        <file>CColorPicker.qml</file>
+        <file>CircularColorPicker.qml</file>
         <file>DragableGridView.qml</file>
         <file>MiniMarkdown.qml</file>
         <file>MultiRangeSlider.qml</file>
@@ -23,5 +23,11 @@
         <file>base/DashedLine.qml</file>
         <file>TextAnimation.qml</file>
         <file>base/UITourItem.qml</file>
+        <file>shader/dashed-lines.glsl</file>
+        <file>shader/pi.glsl</file>
+        <file>MiniKeyboard.qml</file>
+        <file>shader/color-ring.glsl</file>
+        <file>shader/focus.glsl</file>
+        <file>base/FocusEffect.qml</file>
     </qresource>
 </RCC>

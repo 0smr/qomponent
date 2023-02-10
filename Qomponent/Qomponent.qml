@@ -15,7 +15,7 @@ Item {
      * @param properties new properties
      * @returns Input font with new properties.
      */
-    function font(ifont: font, properties) {
+    function font(ifont: font, properties): font {
         return Qt.font(Object.assign({}, ifont, properties));
     }
 
@@ -25,7 +25,7 @@ Item {
      * @param a new alpha value
      * @returns Input color with new alpha value.
      */
-    function alpha(color: color, a: real) {
+    function alpha(color: color, a: real): color {
         return Qt.rgba(color.r, color.g, color.b, a);
     }
 
@@ -47,7 +47,8 @@ Item {
 
     /**
      * @method copy
-     * @param text, input text to be copied.
+     * Copy input text to clipboard.
+     * @param text
      */
     function copy(text) {
         dummytedit.text = text;

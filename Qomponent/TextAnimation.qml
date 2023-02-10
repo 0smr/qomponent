@@ -7,28 +7,33 @@ import QtQuick 2.15
 PropertyAnimation {
     id: control
 
-    property int num
-    property string _from
+    /**
+     * @property {int} frame, Frames of animation from 0 to *duration/50* (this number is chosen by trial and error)
+     *  Please keep in mind that the animation frame rate is always set to 30 FPS.
+     */
+    property int frame: 0
+    /** @property {string} filter, Characters their animation will be skipped. */
     property string filter: "\n\t "
+    property string _from: ""
 
-    NumberAnimation on num { id: anim
-        from: 0; to: Math.floor(duration/50) // Remain at 30Hz
+    NumberAnimation on frame { id: anim
+        from: 0; to: Math.floor(duration/50) // Remain at 30Fps
         duration: control.duration
         easing: control.easing
     }
 
     onStarted: {
-        _from = from ?? target[property];
+        _from = from ?? target[this.property];
         anim.restart();
     }
 
-    onNumChanged: {
+    onFrameChanged: {
         if(property && target && typeof(_from) == "string" && typeof(to) == "string") {
             let text = "";
-            const proc = num / anim.to;
+            const proc = frame / anim.to;
             for(let i = 0; i < to.length; ++i) {
                 let res = to[i];
-                if(![to[i],_from[i]].some(c => filter.includes(c))) {
+                if(![to[i], _from[i]].some(c => filter.includes(c))) {
                     const fc = _from.charCodeAt(i) || 48 + i % 50;
                     const tc = to.charCodeAt(i);
                     const diff = (tc - fc) * proc;
@@ -36,7 +41,7 @@ PropertyAnimation {
                 }
                 text += res;
             }
-            control.target[control.property] = text
+            control.target[control.property] = text;
         }
     }
 }
