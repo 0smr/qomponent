@@ -8,9 +8,11 @@ Item {
     id: control
 
     property alias color: line.color
+    property alias contentItem: line
+
     property real length: vertical ? parent.width : parent.height
     property real padding: 5
-    property alias contentItem: line
+    property real thickness: .5
 
     property bool vertical: (parent.flow ?? 0) === Grid.TopToBottom
 
@@ -21,11 +23,11 @@ Item {
     opacity: 0.2
     Rectangle {
         id: line
-        x: !vertical ? -0.25 : control.padding
-        y:  vertical ? -0.25 : control.padding
+        x: !vertical ? -thickness/2 : control.padding
+        y:  vertical ? -thickness/2 : control.padding
 
-        width: !vertical ? 0.5 : control.length - 2 * control.padding
-        height: vertical ? 0.5 : control.length - 2 * control.padding
+        width: !vertical ? thickness : control.length - 2 * control.padding
+        height: vertical ? thickness : control.length - 2 * control.padding
 
         color: palette.windowText
     }

@@ -4,6 +4,15 @@
 .pragma library
 
 /**
+ * @abstract Same as array 'at' function.
+ * @param {Number} index.
+ * @returns Value at index.
+ */
+const _qat = function(index) {
+    return this[index >= 0 ? index : this.length - index];
+}
+
+/**
  * @abstract
  *  Input properties are evaluated and the final value of current object is returned.
  * @param {String|Array<String>} properties properties chain as String or Array
@@ -43,7 +52,27 @@ const _qsplice = function(index, count = 1, ...items) {
     return [this.substr(0, index), ...items, this.substr(Math.max(index, index + count))].join('');
 }
 
+Array.prototype.qat = _qat;
 Array.prototype.qget = _qget;
 Object.prototype.qget = _qget;
 Number.prototype.qclamp = _qclamp;
 String.prototype.qsplice = _qsplice;
+
+/**
+ * @method readableTime
+ * @param {Number} milis, input time as mili second
+ * @returns {Array} human readable time and poststring.
+ */
+function readableTime(milis) {
+    const timestamps = [
+        {txt:qsTr("month"),  ts: 2629746000}, // 30.436875 * 24 * 60 * 60 * 1000
+        {txt:qsTr("week"),   ts: 604800000},
+        {txt:qsTr("day"),    ts: 86400000},
+        {txt:qsTr("hour"),   ts: 3600000},
+        {txt:qsTr("minute"), ts: 60000},
+        {txt:qsTr("second"), ts: 1000},
+        {txt:qsTr("ms"),     ts: 1},
+    ];
+    const time = timestamps.find(ts => milis/ts.ts > 1) ?? timestamps.slice(-1)[0];
+    return [Math.floor(milis/time.ts), time.txt];
+}
