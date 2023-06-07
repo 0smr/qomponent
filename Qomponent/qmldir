@@ -30,3 +30,6 @@ GirdSeparator       0.1 GirdSeparator.qml # This component is associated with "q
 TextAnimation       0.1 TextAnimation.qml
 Tiltable            0.1 Tiltable.qml
 MiniMarkdown        0.1 MiniMarkdown.qml # Markdown created using Text.RichText
+RippleTT            0.1 RippleThemeTransition.qml
+
+ColorPicker         0.1 ColorPicker.qml
