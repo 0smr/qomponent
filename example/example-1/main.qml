@@ -1,3 +1,7 @@
+// Copyright (C) 2022 smr.
+// SPDX-License-Identifier: MIT
+// https://0smr.github.io
+
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
@@ -10,7 +14,7 @@ ApplicationWindow {
 
     property real pagewidth: 255
 
-    width: pagewidth * 2
+    width: pagewidth
     height: 420
     visible: true
 
@@ -94,13 +98,12 @@ ApplicationWindow {
         contentWidth: grid.width
         contentHeight: height
 
-        Grid {
+        QGrid {
             id: grid
             padding: 5
             spacing: 5
             width: children.width
             height: window.height
-            flow: Grid.LeftToRight
 
             Column {
                 width: pagewidth - 10; spacing: 5
@@ -124,7 +127,7 @@ ApplicationWindow {
                     width: parent.width
                     color: palette.windowText
                     text: "Text\nAnimation"
-                    font.family: 'consolas'
+                    font.family: Qomponent.monofont.name
                     horizontalAlignment: Text.AlignHCenter
                 }
 
@@ -164,7 +167,7 @@ ApplicationWindow {
                         #### h4
                         normal-text *italic* **bold**<br>
                         ***bold-italic*** `inline code`<br>
-                        <a href='https://smr76.github.io'>link</a>
+                        <a href='https://0smr.github.io'>link</a>
                         ```
                         let x = 5;
                         code.block;
@@ -177,9 +180,8 @@ ApplicationWindow {
 
             GridSeparator {}
 
-            Grid {
-                flow: Grid.TopToBottom
-                horizontalItemAlignment: Qt.AlignHCenter
+            QGrid {
+                vertical: true
                 width: pagewidth - 10; spacing: 5
 
                 Title {
@@ -323,8 +325,8 @@ ApplicationWindow {
                     opacity: 1; font.bold: false
                 }
 
-                Grid {
-                    flow: Grid.LeftToRight
+                QGrid {
+                    vertical: true
                     preferredRows: 2
 
                     component TField: TextField {

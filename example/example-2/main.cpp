@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 
     app.setOrganizationName("smr");
     app.setOrganizationDomain("smr.best");
-    app.setApplicationName("example-1");
+    app.setApplicationName("example-2");
 
     QQmlApplicationEngine engine;
     // Path to module.
