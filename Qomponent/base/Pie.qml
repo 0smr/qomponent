@@ -1,6 +1,6 @@
 // Copyright (C) 2022 smr.
 // SPDX-License-Identifier: MIT
-// https://smr76.github.io
+// https://0smr.github.io
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
@@ -21,6 +21,6 @@ Control {
         readonly property real to: (control.to - control.from) * 0.0174533
         readonly property color color: control.palette.base;
 
-        fragmentShader: "qrc:/Qomponent/shader/pi.glsl"
+        fragmentShader: "qrc:/Qomponent/shader/pie.glsl"
     }
 }

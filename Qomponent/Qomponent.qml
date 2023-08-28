@@ -1,6 +1,6 @@
 // Copyright (C) 2022 smr.
 // SPDX-License-Identifier: MIT
-// https://smr76.github.io
+// https://0smr.github.io
 
 pragma Singleton
 
@@ -8,6 +8,8 @@ import QtQuick 2.15
 
 Item {
     id: root
+
+    property alias monofont: mplus1code
 
     /**
      * @method alpha
@@ -41,4 +43,9 @@ Item {
     }
 
     TextEdit { id: dummytedit; visible: false; parent: null }
+
+    FontLoader {
+        id: mplus1code
+        source: 'qrc:/Qomponent/font/mplus1code.ttf'
+    }
 }

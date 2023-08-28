@@ -1,6 +1,6 @@
 // Copyright (C) 2022 smr.
 // SPDX-License-Identifier: MIT
-// https://smr76.github.io
+// https://0smr.github.io
 
 import QtQuick 2.15
 
@@ -10,10 +10,9 @@ Item {
     property real length: vertical ? parent.width : parent.height
     property real padding: 5
     readonly property real parentPadding: (parent.flow ?? 0)
-    readonly property bool vertical: (parent.flow ?? 0) === Grid.TopToBottom
+    readonly property bool vertical: (parent && parent.vertical) ?? false
 
-    width: !vertical ? 0.0001 : length
-    height: vertical ? 0.0001 : length
+    width: 0.001; height: 0.001
     z: 999
 
     Rectangle {

@@ -7,13 +7,16 @@ singleton Qomponent 0.1 Qomponent.qml
 
 BoxShadow           0.1 base/BoxShadow.qml
 FastShadow          0.1 base/FastShadow.qml # FastShadow is the same as FastBlur, but with a solid color
-DashedLine          0.1 base/DashedLine.qml
-Guide               0.1 base/Guide.qml
 Pie                 0.1 base/Pie.qml
+Ruler               0.1 base/Ruler.qml
+Guide               0.1 base/Guide.qml
+GridRuler           0.1 base/GridRuler.qml
 FocusEffect         0.1 base/FocusEffect.qml
+ColorPicker         0.1 base/ColorPicker.qml
+ColorEditor         0.1 base/ColorEditor.qml
 UITourItem          0.1 base/UITourItem.qml # This component is associated with "UITour"
 
-Grid                0.1 quick/Grid.qml
+QGrid               0.1 quick/QGrid.qml
 GridSeparator       0.1 quick/GridSeparator.qml
 
 # EyeDropper        0.1 EyeDropper.qml # TODO: add cpp side
@@ -30,3 +33,6 @@ GirdSeparator       0.1 GirdSeparator.qml # This component is associated with "q
 TextAnimation       0.1 TextAnimation.qml
 Tiltable            0.1 Tiltable.qml
 MiniMarkdown        0.1 MiniMarkdown.qml # Markdown created using Text.RichText
+PatternLock         0.1 PatternLock.qml
+LinearGauge         0.1 LinearGauge.qml
+ThemeEditor         0.1 ThemeEditor.qml

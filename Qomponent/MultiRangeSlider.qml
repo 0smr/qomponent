@@ -1,9 +1,10 @@
 // Copyright (C) 2022 smr.
 // SPDX-License-Identifier: MIT
-// https://smr76.github.io
+// https://0smr.github.io
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQml 2.15
 
 Control {
     id: control
@@ -17,41 +18,96 @@ Control {
     hoverEnabled: true
 
     QtObject {
-        id: internals
-        property var handles: []
+        id: priv
+        readonly property var handles: new Map()
+        property int count: 0
+
+        function push(value) {
+            handles.set(count++, value);
+            handlesChanged(); /// Force emit handles changed signal.
+        }
+
+        function set(key, value) {
+            handles.set(key, value);
+            handlesChanged(); /// Force emit handles changed signal.
+        }
+
+        function del(key) {
+            handles.delete(key);
+            handlesChanged(); /// Force emit handles changed signal.
+        }
+
+        function get(key) {
+            return handles.get(key);
+        }
+
+        function map(val: real, from, to): real {
+            const norm = val / Math.abs(from[0] - from[1]) + from[0];
+            return norm * Math.abs(to[0] - to[1]) - to[0];
+        }
     }
 
+    /** @property {real} from, Minimum value of the slider. */
     property real from: 0
+    /** @property {real} to, Maximum value of the slider. */
     property real to: 1
+    /** @property {real} stepSize, Precision that handles value rounding to. */
     property real stepSize: 0.1
+    /** @property {size} handleSize, Size of the handle stick. */
+    property size handleSize: Qt.size(container.height, container.height)
 
-    signal handlerValueChanged(var handler)
-    signal handlerCreated(var handler)
-    signal handlerRemoved(var handler)
+    signal handleValueChanged(var handle, real value)
+    signal handleCreated(var handle, real value)
+    signal handleRemoved(real value)
 
-    function handle(index) { return internals.handles[index]; }
+    /**
+     * @param index {*}, Index of the handle to retrieve.
+     * @return handle
+     */
+    function handle(index) { return priv.get(index); }
+
+    /** @param index {*}, Index of the handle to delete/remove.
     function remove(index) {
-        internals.handles[index].destroy();
-        internals.handles.splice(index, 1);
+        priv.get(index).destroy();
+        priv.del(index);
     }
-    function push( value = 0) {
 
+    /**
+     * @param value {int}, Value of the handle to create.
+     * @return created handle.
+     */
+    function push(value = 1) {
+        const handle = handleComponent.createObject(container, {
+            x: value * container.width - handleSize.width/2, y: 0}
+        );
+        priv.push(handle);
+        return handle;
     }
 
     Component {
-        id: handleCmp
+        id: handleComponent
         Control {
+            /// BUG: Write cleaner code.
+            /// This is the part that x should change based on the value and container's width,
+            ///  but since the dragHandler changes x, it requires a binding to norm too.
+            x: !draghandler.active ? norm * container.width - width/2 : x
             property real index: 0
-            property real value: (x + width/2) / container.width * Math.abs(to - from) - from
-            padding: 1; width: container.height; height: width;
+            readonly property real value: priv.map(norm, [0, 1], [from, to])
+            readonly property real norm: draghandler.active ? (x + width/2)/container.width : norm
+
+            width: handleSize.width; height: handleSize.height;
+            padding: 1
             opacity: 1 - y/height
             hoverEnabled: true
+            /// Emit handleValueChanged signal
+            onValueChanged: control.handleValueChanged(this, value)
 
             contentItem: Rectangle {
                 color: palette.button
                 border.width: 0.5
                 border.color: parent.hovered ? palette.windowText : palette.window
                 rotation: -45
+                radius: 2
             }
 
             background: Item {
@@ -65,17 +121,23 @@ Control {
             DragHandler {
                 id: draghandler
                 yAxis.enabled: false
-                xAxis { minimum: -width/2; maximum: container.width - width/2 }
+                xAxis { minimum: - width/2 + 1; maximum: container.width - width/2 - 1 }
             }
 
             DragHandler {
-                dragThreshold: 6
+                dragThreshold: 5
                 xAxis.enabled: false
                 yAxis { minimum: 0; maximum: height * 0.7 }
                 onActiveChanged: {
                     if(!active && target.y > height / 3) {
+                        priv.del(target.index);
+                        /// Emit handleRemoved signal
+                        control.handleRemoved(target.value);
+                        /// Destroy the selected handle
                         target.destroy();
-                    } else { target.y = 0; }
+                    } else {
+                        target.y = 0;
+                    }
                 }
             }
         }
@@ -92,30 +154,43 @@ Control {
             width: parent.width
             height: control.height/2
             MouseArea {
+                property var object: undefined
                 anchors.fill: parent
-                property var obj: undefined
+                pressAndHoldInterval: 250
                 onMouseYChanged: {
-                    if(obj) {
-                        obj.y = Math.max(0, Math.min(mouse.y, height/2));
+                    if(object) {
+                        object.y = Math.max(0, Math.min(mouse.y, height/2));
                     }
                 }
                 onPressAndHold: {
-                    obj = handleCmp.createObject(container, {x: mouse.x - container.height/2, y: mouse.y});
+                    object = handleComponent.createObject(container, {
+                        x: mouse.x - handleSize.width/2,
+                        y: mouse.y,
+                        index: priv.count++
+                    });
+
+                    /// Emit handleCreated signal
+                    control.handleCreated(object, object.value);
                 }
                 onReleased: {
-                    if(mouse.y < height * 0.3 && obj) {
-                        obj.y = 0; internals.handles.push(obj);
-                    } else if(obj) { obj.destroy(); }
-                    obj = undefined;
+                    if(object && mouse.y < height * 0.3) {
+                        priv.set(object.index, object);
+                        object.y = 0; /// Snap handle to top
+                    } else if(object) {
+                        object.destroy();
+                    }
+                    object = undefined;
                 }
             }
 
-            DashedLine {
-                x: -2; y: parent.height - height
-                width: parent.width + 4 + parent.width % 2
+            Ruler {
+                y: parent.height - height
+                width: parent.width
                 height: control.height/3
                 color: palette.windowText
-                originColor: palette.highlight
+                origin: palette.highlight
+                offset: 0.5
+                step { y: 3; z: 9; w: 81 }
             }
         }
     }
