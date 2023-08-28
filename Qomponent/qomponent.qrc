@@ -1,22 +1,5 @@
 <RCC>
     <qresource prefix="/Qomponent">
-        <file>ArcSlider.qml</file>
-        <file>CircularColorPicker.qml</file>
-        <file>DragableGridView.qml</file>
-        <file>EyeDropper.qml</file>
-        <file>LinearGauge.qml</file>
-        <file>MiniKeyboard.qml</file>
-        <file>MiniMarkdown.qml</file>
-        <file>MultiRangeSlider.qml</file>
-        <file>PatternLock.qml</file>
-        <file>Qomponent.qml</file>
-        <file>Qomponent.qmltypes</file>
-        <file>TextAnimation.qml</file>
-        <file>ThemeEditor.qml</file>
-        <file>Tiltable.qml</file>
-        <file>ToolTipPlus.qml</file>
-        <file>UITour.qml</file>
-        <file>VRow.qml</file>
         <file>base/BoxShadow.qml</file>
         <file>base/ColorEditor.qml</file>
         <file>base/ColorPicker.qml</file>
@@ -28,15 +11,33 @@
         <file>base/Pie.qml</file>
         <file>base/Ruler.qml</file>
         <file>base/UITourItem.qml</file>
-        <file>qmldir</file>
+        <file>ArcSlider.qml</file>
+        <file>CircularColorPicker.qml</file>
+        <file>DragableGridView.qml</file>
+        <file>EyeDropper.qml</file>
         <file>font/mplus1code.ttf</file>
-        <file>quick/QGrid.qml</file>
+        <file>LinearGauge.qml</file>
+        <file>MiniKeyboard.qml</file>
+        <file>MiniMarkdown.qml</file>
+        <file>MultiRangeSlider.qml</file>
+        <file>PatternLock.qml</file>
+        <file>qmldir</file>
+        <file>Qomponent.qml</file>
+        <file>Qomponent.qmltypes</file>
         <file>quick/GridSeparator.qml</file>
+        <file>quick/QGrid.qml</file>
+        <file>RippleThemeTransition.qml</file>
         <file>scripts.js</file>
         <file>shader/color-ring.glsl</file>
         <file>shader/focus.glsl</file>
         <file>shader/grid-ruler.glsl</file>
         <file>shader/pie.glsl</file>
         <file>shader/ruler.glsl</file>
+        <file>TextAnimation.qml</file>
+        <file>ThemeEditor.qml</file>
+        <file>Tiltable.qml</file>
+        <file>ToolTipPlus.qml</file>
+        <file>UITour.qml</file>
+        <file>VRow.qml</file>
     </qresource>
 </RCC>

@@ -12,8 +12,18 @@ Item {
     property alias monofont: mplus1code
 
     /**
+     * @method font
+     * @param ifont input font
+     * @param properties new properties
+     * @returns Input font with new properties.
+     */
+    function font(ifont: font, properties): font {
+        return Qt.font(Object.assign({}, ifont, properties));
+    }
+
+    /**
      * @method alpha
-     * @param color input font
+     * @param color input color
      * @param a new alpha value
      * @returns Input color with new alpha value.
      */
@@ -22,13 +32,19 @@ Item {
     }
 
     /**
-     * @method font
-     * @param ifont input font
-     * @param properties new properties
-     * @returns Input font with new properties.
+     * @method qassign
+     * @param object input font
+     * @param value new properties
+     * @returns dict font with new properties.
      */
-    function font(ifont: font, prop): font {
-        return Qt.font(Object.assign({}, ifont, prop));
+    function qassign(object, value) {
+        let temp = Object.assign({}, object, {})
+        for(const key in value) {
+            if(object.hasOwnProperty(key)) {
+                temp[key] = value[key];
+            }
+        }
+        return temp;
     }
 
     /**

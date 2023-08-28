@@ -36,3 +36,4 @@ MiniMarkdown        0.1 MiniMarkdown.qml # Markdown created using Text.RichText
 PatternLock         0.1 PatternLock.qml
 LinearGauge         0.1 LinearGauge.qml
 ThemeEditor         0.1 ThemeEditor.qml
+RippleTT            0.1 RippleThemeTransition.qml

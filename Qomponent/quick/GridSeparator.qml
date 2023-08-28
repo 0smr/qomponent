@@ -7,6 +7,9 @@ import QtQuick 2.15
 Item {
     id: control
 
+    property alias color: line.color
+    property alias contentItem: line
+
     property real length: vertical ? parent.width : parent.height
     property real padding: 5
     readonly property real parentPadding: (parent.flow ?? 0)
@@ -15,14 +18,15 @@ Item {
     width: 0.001; height: 0.001
     z: 999
 
+    opacity: 0.2
     Rectangle {
-        x: !vertical ? -0.25 : control.padding
-        y:  vertical ? -0.25 : control.padding
+        id: line
+        x: !vertical ? -thickness/2 : control.padding
+        y:  vertical ? -thickness/2 : control.padding
 
-        width: !vertical ? 0.5 : control.length - 4 * control.padding
-        height: vertical ? 0.5 : control.length - 4 * control.padding
+        width: !vertical ? thickness : control.length - 2 * control.padding
+        height: vertical ? thickness : control.length - 2 * control.padding
 
         color: palette.windowText
-        opacity: 0.2
     }
 }
