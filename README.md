@@ -10,6 +10,15 @@
 
 *If you liked these components, please consider givin a star :star2:*
 
+### Preview
+
+<table width="200px">
+<tr><td><video src="https://github.com/0smr/qomponent/assets/51415059/263791225-ce6d5311-d612-4263-825c-3ae12ca25a19.mp4"></video></td>
+<td><video src="https://github.com/0smr/qomponent/assets/51415059/799b1962-a351-4e43-b5d3-9100e204f540.mp4"></video></td>
+<td><video src="https://github.com/0smr/qomponent/assets/51415059/73a0bb65-bb63-4a82-a718-f0f3a079fedc.mp4"></video></td></tr>
+<tr><td colspan="3"><video src="https://github.com/0smr/qomponent/assets/51415059/aecfd391-a593-4526-9238-25aafae69dee.mp4"></video></td></tr>
+</table>
+
 ## How to use
 > **Note**<br>
 > Components in this repository are still in development, thus changes over each update may be significant.
