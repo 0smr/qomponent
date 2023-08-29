@@ -12,6 +12,7 @@ Item {
 
     property real length: vertical ? parent.width : parent.height
     property real padding: 5
+    property real thickness: 0.5
     readonly property real parentPadding: (parent.flow ?? 0)
     readonly property bool vertical: (parent && parent.vertical) ?? false
 

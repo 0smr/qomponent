@@ -26,33 +26,51 @@
 
 ### Usage
 
-Clone the repository first.
-```bash
-git clone "https://github.com/SMR76/qomponent.git"
-```
-
-Then include `Qomponent.pri` in your project. <sub>[see example-1](example/example-1/example-1.pro#L11)</sub>
-```make
-include("path/to/Qomponent.pri")
-```
-
-Add `qrc:/` to the engine import path. <sub>[see example-1](example/example-1/main.cpp#L17)</sub>
-```cpp
-engine.addImportPath("qrc:/");
-```
-
-And finally import the `Qomponent` module. <sub>[see example-1](example/example-1/main.qml#L6)</sub>
-```qml
-import Qomponent 0.1
-```
++ Clone the repository first.
+    ```bash
+    git clone "https://github.com/SMR76/qomponent.git"
+    ```
++ Then add `qomponent` to your makefile.
+    * **QMake**: <sub>[example-1](example/example-1/example-1.pro#L11)</sub>
+        ```make
+        include("path/to/Qomponent.pri")
+        ```
+    * **CMake**: <sub>[example-3](example/example-3/CMakeLists.txt#L30..L32)</sub>
+        ```cmake
+        add_subdirectory(path/to/Qomponent/)
+        target_link_libraries(${target-name} qomponent)
+        ```
++ Add `qrc:/` to the engine's import path.
+    <sub>[example-1](example/example-1/main.cpp#L17)</sub>
+    ```cpp
+    engine.addImportPath("qrc:/");
+    ```
++ Import the `Qomponent` module.
+    <sub>[example-1](example/example-1/main.qml#L6)</sub>
+    ```qml
+    import Qomponent 0.1
+    ```
 
 If you are confused, please refer to [example-1](example/example-1) for a clearer understanding of what you should do.
 
 ## Components
 
-<!-- <details open>
-<summary>Available</summary>
-</details> -->
+<div align="center">
+
+||||
+|--|--|--|
+|ColorPicker|CircularColorPicker|RippleTT|
+|BoxShadow |QGrid        |GirdSeparator|
+|FastShadow|GridSeparator|TextAnimation|
+|Pie       |ToolTipPlus  |Tiltable    |
+|Ruler     |UITour       |MiniMarkdown|
+|Guide     |MiniKeyboard |PatternLock |
+|GridRuler |VRow         |LinearGauge |
+|FocusEffect|ArcSlider    |ThemeEditor|
+|ColorEditor|DragableGridView |-|
+|UITourItem |MultiRangeSlider |-|
+
+</div>
 
 ## Issues
 
