@@ -71,7 +71,7 @@ Control {
             uniform highp vec2 point;
             void main() {
                 vec2 uv = qt_TexCoord0 * _size - point;
-                gl_FragColor = texture2D(source, qt_TexCoord0) * smoothstep(.0, _ssv, length(uv) - radius) * qt_Opacity;
+                gl_FragColor = texture2D(source, qt_TexCoord0) * smoothstep(0.0, _ssv, length(uv) - radius) * qt_Opacity;
             }"
     }
 }
