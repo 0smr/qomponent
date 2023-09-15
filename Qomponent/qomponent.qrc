@@ -39,5 +39,7 @@
         <file>ToolTipPlus.qml</file>
         <file>UITour.qml</file>
         <file>VRow.qml</file>
+        <file>FontSelector.qml</file>
+        <file>AutoCompleteInput.qml</file>
     </qresource>
 </RCC>

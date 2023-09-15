@@ -18,7 +18,7 @@ Control {
         readonly property bool valid: target && target.hasOwnProperty(prop)
 
         font.family: Qomponent.monofont.name
-        font.pointSize: 7.5
+        font.pixelSize: 10
         color: palette.text
         validator: DoubleValidator { bottom: 0; top: 1; decimals: 2 }
         text: (target && Number(target[prop]).toFixed(2)) ?? '0.00'
@@ -79,7 +79,7 @@ Control {
                     Label {
                         text: modelData.label + ': '
                         font.family: Qomponent.monofont.name
-                        font.pointSize: 7.5
+                        font.pixelSize: 10
                     }
 
                     Repeater {

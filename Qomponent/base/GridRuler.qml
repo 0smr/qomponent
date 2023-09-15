@@ -59,7 +59,7 @@ Control {
 
 					opacity: x/20 + y
 					font.family: Qomponent.monofont.name
-					font.pointSize: 6
+					font.pixelSize: 8
 
 					rotation: needsRotate ? 90 : 0
 					transformOrigin: Item.TopLeft

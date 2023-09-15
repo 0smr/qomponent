@@ -6,6 +6,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQml 2.15
 
+import Qomponent 0.1
+
 Control {
     id: control
 
@@ -13,9 +15,7 @@ Control {
                             leftPadding + rightPadding, leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                             topPadding + bottomPadding, topPadding + bottomPadding)
-    leftPadding: 0
-    rightPadding: 0
-    hoverEnabled: true
+    padding: 0
 
     QtObject {
         id: priv
@@ -42,8 +42,7 @@ Control {
         }
 
         function map(val: real, from, to): real {
-            const norm = val / Math.abs(from[0] - from[1]) + from[0];
-            return norm * Math.abs(to[0] - to[1]) - to[0];
+            return Scripts._qmap.call(val, from, to);
         }
     }
 
@@ -66,7 +65,7 @@ Control {
      */
     function handle(index) { return priv.get(index); }
 
-    /** @param index {*}, Index of the handle to delete/remove.
+    /** @param index {*}, Index of the handle to delete/remove. */
     function remove(index) {
         priv.get(index).destroy();
         priv.del(index);

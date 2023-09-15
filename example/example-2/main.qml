@@ -7,11 +7,12 @@ import Qomponent 0.1
 ApplicationWindow {
     id: window
 
-    width: 200; height: 250
+    width: 240; height: 250
     visible: true
 
     palette {
         text: '#f1f2f3'
+        base: '#121314'
         window: '#121314'
         windowText: '#f1f2f3'
         button: '#21a3f1'
@@ -22,24 +23,62 @@ ApplicationWindow {
         width: parent.width
         wrapMode: Text.Wrap
         font.family: Qomponent.monofont.name
-        font.pointSize: 7
+        font.pixelSize: 10
         horizontalAlignment: Qt.AlignHCenter
     }
 
-    component CButton: RoundButton {
-        width: 40; height: 25; radius: 3
-        palette.mid: '#000'
-        font.pointSize: 8
+    QtObject {
+        id: fonts
+        property font icon
+        property font mono: Qt.font({family: 'Consolas'})
+        property font head: Qt.font({bold: true})
+        property font regular
+        property font subscript
     }
 
     QGrid {
         padding: 5
         spacing: 10
+
         QGrid {
             spacing: 5
             vertical: true
-            horizontalItemAlignment: Grid.AlignHCenter
+            horizontalItemAlignment: Qt.AlignLeft
 
+            Header { text: 'Theme editor' }
+
+            ThemeEditor {
+                id: themeEditor
+                target: window
+                width: 230; height: 230
+                onTempPaletteChanged: save()
+            }
+        }
+
+        GridSeparator {}
+
+        QGrid {
+            spacing: 5
+            vertical: true
+
+            Header { text: 'FontSelector' }
+
+            FontSelector {
+                width: 225
+                height: window.height - 26
+
+                palette.highlight: '#99ffffff'
+
+                target: fonts
+                properties: ['icon','mono','head','regular','subscript']
+            }
+        }
+
+        GridSeparator {}
+
+        QGrid {
+            spacing: 5
+            vertical: true
             Header { text: 'Offset: ' + linearGauge.offset.toFixed(1) }
             Rectangle { width: 1; height: 4 }
             LinearGauge {
@@ -64,7 +103,6 @@ ApplicationWindow {
 
         QGrid {
             vertical: true
-            horizontalItemAlignment: Grid.AlignHCenter
             spacing: 5
 
             Header {
@@ -74,23 +112,7 @@ ApplicationWindow {
             PatternLock {
                 id: pattern
                 width: 120; height: width
-                onRelease: clear();
-            }
-        }
-
-        GridSeparator {}
-
-        QGrid {
-            vertical: true
-            horizontalItemAlignment: Grid.AlignLeft
-
-            Header { text: 'Theme editor' }
-
-            ThemeEditor {
-                id: themeEditor
-                target: window
-                width: 235; height: 225; padding: 5
-                onTempPaletteChanged: save()
+                onRelease: clear()
             }
         }
     }

@@ -152,7 +152,7 @@ Control {
         y: 5; x: parent.width - implicitWidth - 5
         padding: 5
         text: "Copy"
-        font.pointSize: 7
+        font.pixelSize: 10
         opacity: textarea.hoveredLink.startsWith("#code")
         background: Rectangle {
             radius: 2; opacity: 0.5

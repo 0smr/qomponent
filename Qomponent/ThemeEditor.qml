@@ -33,16 +33,16 @@ Control {
     function deselect() { selected = ''; }
 
     /// Custome tool button.
-    component CustomToolButton: ToolButton {
+    component ToolBtn: ToolButton {
         padding: 0
-        background: null
-        opacity: down ? 0.6 : 0.7
-        font.pointSize: 7
+        opacity: 0.5 + !down * 0.1
+        font.pixelSize: 10
         font.family: Qomponent.monofont.name
+        background: null
     }
 
     /// Color delegate component
-    component ColorDelegate: Control {
+    component ColorDelegate: AbstractButton {
         id: colorItem
 
         property color color: '#000'
@@ -53,68 +53,59 @@ Control {
         signal resetClicked()
         signal expandClicked()
 
-        contentItem: Grid {
-            CustomToolButton {
-                id: expandbtn
-                width: colorItem.box.width
-                height: colorItem.box.height
+        HoverHandler { cursorShape: Qt.PointingHandCursor }
 
-                text: '+'
-                opacity: down ? 0.8 : 1
-                /// A gray scale color opposite to the background color.
-                palette.buttonText: Qt.hsla(0, 0, 1 - colorItem.color.hslLightness * 2, 0.5)
+        contentItem: VRow {
+            Row {
+                Label {
+                    id: expandbtn
+                    width: parent.height; height: width
+                    horizontalAlignment: Qt.AlignHCenter
+                    verticalAlignment:  Qt.AlignVCenter
 
-                background: Rectangle {
-                    color: colorItem.color
-                    radius: 2
+                    text: '+'
+                    /// A gray scale color opposite to the background color.
+                    color: Qt.hsla(0, 0, 1 - colorItem.color.hslLightness * 2, 0.5)
+                    background: Rectangle { radius: 2; color: colorItem.color }
                 }
 
-                onClicked: colorItem.expandClicked();
+                /// Color label
+                Label {
+                    padding: 5
+                    opacity: 0.5
+                    text: modelData
+                    font.family: Qomponent.monofont.name
+                }
             }
 
-            /// Color label
-            Label {
-                padding: 5
-                /// Fills all remaining space of parent row.
-                width: colorItem.minibox ? implicitWidth : parent.width - (txtedit.width + resetbtn.width + expandbtn.width)
-                color: palette.text
-                text: modelData
-                opacity: 0.5
-                clip: true
-            }
+            Row {
+                visible: !colorItem.minibox
+                rightPadding: 6
 
-            TextInput {
-                id: txtedit
-                padding: 5; rightPadding: 0;
+                TextField {
+                    padding: 6
 
-                /// Validate if color pattern is correct.
-                /// The pattern should start with # following 3 or 6 hex digits.
-                validator: RegularExpressionValidator {
-                    regularExpression: /#([\da-f]{3}){1,2}/i
+                    /// Validate if color pattern is correct.
+                    /// The pattern should start with # following 3 or 6 hex digits.
+                    validator: RegularExpressionValidator {
+                        regularExpression: /#([\da-f]{3}){1,2}/i
+                    }
+
+                    text: colorItem.color
+                    font.family: Qomponent.monofont.name
+                    font.pixelSize: 10
+                    selectByMouse: true
+
+                    onTextEdited: acceptableInput && colorItem.edited(text);
+                    background: null
                 }
 
-                visible: !colorItem.minibox
-                text: colorItem.color
-                color: palette.text
-                font.family: Qomponent.monofont.name
-                font.pointSize: 7.5
-                selectionColor: '#515253'
-                selectByMouse: true
+                ToolBtn {
+                    height: parent.height; width: implicitContentWidth
+                    text: 'reset'
 
-                onTextEdited: acceptableInput && colorItem.edited(text);
-
-                /// This is a hover handler that only changes the cursor shape on hover.
-                HoverHandler { cursorShape: Qt.IBeamCursor }
-            }
-
-            CustomToolButton {
-                id: resetbtn
-                visible: !colorItem.minibox
-                width: colorItem.box.width + 10
-                height: colorItem.box.height
-                text: 'reset'
-
-                onClicked: colorItem.resetClicked()
+                    onClicked: colorItem.resetClicked()
+                }
             }
         }
 
@@ -141,6 +132,7 @@ Control {
             width: control.availableWidth
             visible: control.selected
 
+            /// FIXME: Binding loop
             Binding on color {
                 when: temp.palette.hasOwnProperty(control.selected)
                 value: temp.palette[selected]
@@ -153,10 +145,11 @@ Control {
                 }
             }
 
-            CustomToolButton {
-                x: parent.width - width - 5
-                padding: 0; width: 5; text: 'x'
-                font.pointSize: 9
+            ToolBtn {
+                x: parent.availableWidth - width
+                text: '+'
+                contentItem.rotation: 45
+                font.pixelSize: 15
                 onClicked: control.selected = '';
             }
         }
@@ -186,7 +179,7 @@ Control {
 
                         onEdited: val => temp.palette[modelData] = val;
                         onResetClicked: if(control.validtarget) temp.palette[modelData] = control.target.palette[modelData];
-                        onExpandClicked: control.selected = modelData;
+                        onClicked: control.selected = modelData;
                     }
                 }
             }

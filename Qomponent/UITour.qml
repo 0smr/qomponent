@@ -11,7 +11,7 @@ import Qomponent 0.1
 T.Control {
     id: control
 
-    font { bold: true; pointSize: 10 }
+    font { bold: true; pixelSize: 14 }
 
     /** @property {Array<UITourItem>} list, provides a list of UI tour objects that will be displayed sequentially. */
     default property list<UITourItem> items

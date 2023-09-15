@@ -31,7 +31,7 @@
     git clone "https://github.com/SMR76/qomponent.git"
     ```
 + Then add `qomponent` to your makefile.
-    * **QMake**: <sub>[example-1](example/example-1/example-1.pro#L11)</sub>
+    * **QMake**: <sub>[example-1](example/example-1/example-1.pro#L7)</sub>
         ```make
         include("path/to/Qomponent.pri")
         ```
@@ -46,7 +46,7 @@
     engine.addImportPath("qrc:/");
     ```
 + Import the `Qomponent` module.
-    <sub>[example-1](example/example-1/main.qml#L6)</sub>
+    <sub>[example-1](example/example-1/main.qml#L10)</sub>
     ```qml
     import Qomponent 0.1
     ```

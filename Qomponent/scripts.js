@@ -37,6 +37,17 @@ const _qget = function(properties, _default = undefined) {
  * @param {Number} max
  * @returns Return a value between min and max.
  */
+const _qmap = function(from, to) {
+    return (this - from[0]) / (from[1] - from[0]) * (to[1] - to[0]) + to[0];
+}
+
+/**
+ * @abstract
+ *  Clamp the Number value to min and max.
+ * @param {Number} min
+ * @param {Number} max
+ * @returns Return a value between min and max.
+ */
 const _qclamp = function(min, max) {
     return Math.max(min, Math.min(this, max));
 }
@@ -98,6 +109,7 @@ const _qpointdivide = function(value) {
 Array.prototype.qat = _qat;
 Array.prototype.qget = _qget;
 Object.prototype.qget = _qget;
+Number.prototype.qmap = _qmap;
 Number.prototype.qclamp = _qclamp;
 String.prototype.qsplice = _qsplice;
 

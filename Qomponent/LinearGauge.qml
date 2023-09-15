@@ -43,7 +43,7 @@ Control {
                     x: (index - 1) * priv.step - priv.off % priv.step + (priv.dist/2) % priv.step
                     color: '#fff'
                     font.family: Qomponent.monofont.name
-                    font.pointSize: 6
+                    font.pixelSize: 8
                     text: (x + priv.off - priv.dist/2).toFixed()
                     rotation: needRotate * 90
                     transformOrigin: Item.BottomLeft
