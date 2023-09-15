@@ -16,7 +16,8 @@ Item {
     readonly property real parentPadding: (parent.flow ?? 0)
     readonly property bool vertical: (parent && parent.vertical) ?? false
 
-    width: 0.001; height: 0.001
+    width: !vertical ? 0.001 : length
+    height: vertical ? 0.001 : length
     z: 999
 
     opacity: 0.2

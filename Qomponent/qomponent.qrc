@@ -3,7 +3,6 @@
         <file>base/BoxShadow.qml</file>
         <file>base/ColorEditor.qml</file>
         <file>base/ColorPicker.qml</file>
-        <file>base/ColorPicker.qml</file>
         <file>base/FastShadow.qml</file>
         <file>base/FocusEffect.qml</file>
         <file>base/GridRuler.qml</file>
