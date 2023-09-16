@@ -193,15 +193,12 @@ Control {
 
     contentItem: Column {
         spacing: 5
+        ButtonGroup { id: buttonGroup }
 
         FontEditor {
             id: fontEditor
             visible: control.selected
             width: control.availableWidth
-        }
-
-        ButtonGroup {
-            id: buttonGroup
         }
 
         ListView {
@@ -210,7 +207,7 @@ Control {
             spacing: 2
 
             width: control.availableWidth
-            height: control.availableHeight - fontEditor.height - 5
+            height: control.availableHeight - fontEditor.visible * fontEditor.height - 5
 
             delegate: AbstractButton {
                 id: fontdelegate

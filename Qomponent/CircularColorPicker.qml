@@ -97,14 +97,18 @@ Control {
         MouseArea {
             id: huema
             anchors.fill: parent
+            preventStealing: true
+
             property real angle: 0
 
             function angleFromCenter() {
                 return Math.atan2(width/2 - mouseX, mouseY - height/2) / 6.2831 + 0.5;
             }
+
             onPositionChanged: {
                 angle = Math.atan2(width/2 - mouseX, mouseY - height/2) / 6.2831 + 0.5;
             }
+
             onPressed: {
                 const dist = Math.hypot(mouseX - width/2, mouseY - height/2);
                 mouse.accepted = width/2 - control.strokeWidth < dist

@@ -29,11 +29,14 @@ Control {
 
         DragHandler {
             property real init
+
             target: null
-            yAxis.enabled: false
-            cursorShape: Qt.SizeHorCursor
             margin: active * 50
             dragThreshold: 1
+            yAxis.enabled: false
+            cursorShape: Qt.SizeHorCursor
+            /// To prevent other items from stealing the drag event.
+            grabPermissions: PointerHandler.CanTakeOverFromAnything
 
             onActiveChanged: {
                 if(active) init = Number(parent.text);
@@ -41,7 +44,7 @@ Control {
             }
             onTranslationChanged: {
                 if(active && parent.valid) {
-                    parent.target[parent.prop] = Math.min(Math.max(0, init + translation.x/50), 1);
+                    parent.target[parent.prop] = (init + translation.x/50).qclamp(0,1);
                 }
             }
         }

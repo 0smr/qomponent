@@ -25,7 +25,7 @@ Control {
 			property color origin: '#fff'
 			property vector2d step: Qt.vector2d(20, 20)
 			property vector2d offset: Qt.vector2d(0, 0)
-			readonly property vector2d hw: Qt.vector2d(width, height)
+			property vector2d size: Qt.vector2d(width, height)
 
 			fragmentShader: "qrc:/Qomponent/shader/grid-ruler.glsl"
 
@@ -34,7 +34,7 @@ Control {
 				target: null
 				dragThreshold: 0
 				onActiveChanged: if(active) init = parent.offset;
-				onTranslationChanged: parent.offset = Qt.vector2d(init.x - translation.x, init.y - translation.y);
+				onTranslationChanged: parent.offset = init.minus(Qt.vector2d(translation.x, translation.y));
 			}
 		}
 

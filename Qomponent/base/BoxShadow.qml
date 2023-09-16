@@ -21,7 +21,7 @@ Item {
         height: control.height;
 
         readonly property color color: control.color;
-        readonly property vector2d ratio: Qt.vector2d(width / whmax, height / whmax);
+        readonly property vector2d ratio: Qt.vector2d(width, height).times(1/whmax);
         readonly property real whmax: Math.max(width, height);
         readonly property real spread: control.spread / whmax;
         readonly property real radius: {

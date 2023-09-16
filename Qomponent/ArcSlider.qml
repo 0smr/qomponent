@@ -46,6 +46,8 @@ Control {
         MouseArea {
             id: mousearea
             anchors.fill: parent
+            preventStealing: true
+
             property real angle: 360
 
             function calculateAngle() {

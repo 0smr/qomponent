@@ -86,6 +86,8 @@ Control {
 
         persistentSelection: true
 
+        font: control.font
+
         color: palette.text
         selectionColor: Qomponent.alpha(palette.highlight, 0.4)
         selectedTextColor: palette.highlightedText

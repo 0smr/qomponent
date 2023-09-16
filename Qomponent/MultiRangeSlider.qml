@@ -119,6 +119,8 @@ Control {
 
             DragHandler {
                 id: draghandler
+                dragThreshold: 5
+                grabPermissions: PointerHandler.CanTakeOverFromAnything
                 yAxis.enabled: false
                 xAxis { minimum: - width/2 + 1; maximum: container.width - width/2 - 1 }
             }
@@ -188,7 +190,7 @@ Control {
                 height: control.height/3
                 color: palette.windowText
                 origin: palette.highlight
-                offset: 0.5
+                offset: width/2
                 step { y: 3; z: 9; w: 81 }
             }
         }

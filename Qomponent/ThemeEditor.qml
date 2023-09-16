@@ -124,6 +124,8 @@ Control {
     contentItem: Column {
         spacing: 5
 
+        DragHandler { target: null }
+
         ColorEditor {
             id: coloreditor
 

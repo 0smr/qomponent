@@ -10,7 +10,7 @@ ShaderEffect {
     property color color: '#000'
 
     readonly property real _radius: radius/width
-    readonly property vector2d _center: Qt.vector2d(center.x/width, center.y/width)
+    readonly property vector2d _center: Qt.vector2d(center.x, center.y).times(1/width)
 
     fragmentShader: "qrc:/Qomponent/shader/focus.glsl"
 }

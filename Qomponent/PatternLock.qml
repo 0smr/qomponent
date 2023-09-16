@@ -134,6 +134,8 @@ Control {
             }
         }
 
+        DragHandler { target: null }
+
         PointHandler {
             id: pointHandler
             onActiveChanged: active ? control.press() : control.release()
