@@ -76,7 +76,7 @@ Control {
             thickness: 0.5
             step: Qt.vector4d(2,sec/4,sec/2, sec)
             size: Qt.vector4d(0,0.2,0.4,0.6)
-            color: control.palette.text
+            color: parent.palette.text
             origin: color
             offset: width/2
         }
@@ -163,8 +163,12 @@ Control {
                     from: 3; to: 28
                     value: editor.selected[props[unit.idx]]
                     onMoved: {
-                        editor.selected[props[1 - unit.idx]] = 0;
-                        editor.selected[props[unit.idx]] = value
+                        /// Create a clone font with filtered properties
+                        var newFont = Qt.font(Qomponent.qfilter(editor.selected, props));
+                        /// Assgin new property
+                        newFont[props[unit.idx]] = value;
+                        /// Assign new font to taget
+                        control.target[control.selected] = newFont;
                     }
                 }
             }
@@ -220,7 +224,6 @@ Control {
                 width: control.availableWidth
                 padding: 5
                 checkable: true
-                autoExclusive: true
 
                 onClicked: control.selected = type
 

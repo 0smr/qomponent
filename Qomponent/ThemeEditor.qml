@@ -13,7 +13,7 @@ import QtQml 2.15
 Control {
     id: control
 
-    property alias tempPalette: temp.palette
+    property alias bufferPalette: buffer.palette
 
     /// @property {*} target, contains the target item of ThemeEditor (default: parent)
     property var target: parent
@@ -26,7 +26,7 @@ Control {
 
     /// @abstract This function copy the temporary palette to the target palette.
     function save() {
-        Object.keys(palette).forEach(k => target.palette[k] = temp.palette[k]);
+        Object.keys(palette).forEach(k => target.palette[k] = buffer.palette[k]);
     }
 
     /// @abstract This function clear the selected palette string.
@@ -46,26 +46,31 @@ Control {
         id: colorItem
 
         property color color: '#000'
-        property size box: Qt.size(25, 25)
-        property bool minibox: false
+        property bool minimized: false
+        property bool edited: false
 
         signal edited(text: string)
         signal resetClicked()
         signal expandClicked()
 
+        checkable: true
+
         HoverHandler { cursorShape: Qt.PointingHandCursor }
 
         contentItem: VRow {
             Row {
-                Label {
-                    id: expandbtn
+                Control {
                     width: parent.height; height: width
-                    horizontalAlignment: Qt.AlignHCenter
-                    verticalAlignment:  Qt.AlignVCenter
+                    contentItem: Label {
+                        horizontalAlignment: Qt.AlignHCenter
+                        verticalAlignment:  Qt.AlignVCenter
+                        rotation: colorItem.checked * 45
+                        text: '+'
+                        /// A gray scale color opposite to the background color.
+                        color: Qt.hsla(0, 0, 1 - colorItem.color.hslLightness * 2, 0.5)
 
-                    text: '+'
-                    /// A gray scale color opposite to the background color.
-                    color: Qt.hsla(0, 0, 1 - colorItem.color.hslLightness * 2, 0.5)
+                        Behavior on rotation {NumberAnimation{ duration: 100 }}
+                    }
                     background: Rectangle { radius: 2; color: colorItem.color }
                 }
 
@@ -73,13 +78,13 @@ Control {
                 Label {
                     padding: 5
                     opacity: 0.5
-                    text: modelData
+                    text: colorItem.text
                     font.family: Qomponent.monofont.name
                 }
             }
 
             Row {
-                visible: !colorItem.minibox
+                visible: !colorItem.minimized
                 rightPadding: 6
 
                 TextField {
@@ -101,8 +106,10 @@ Control {
                 }
 
                 ToolBtn {
-                    height: parent.height; width: implicitContentWidth
                     text: 'reset'
+                    visible: colorItem.edited
+                    height: parent.height
+                    width: implicitContentWidth
 
                     onClicked: colorItem.resetClicked()
                 }
@@ -117,7 +124,7 @@ Control {
     }
 
     Control {
-        id: temp
+        id: buffer
         palette: control.target.palette
     }
 
@@ -125,6 +132,14 @@ Control {
         spacing: 5
 
         DragHandler { target: null }
+
+        ButtonGroup {
+            id: buttonGroup
+            buttons: flow.children
+            onCheckedButtonChanged: {
+                control.selected = checkedButton ? checkedButton.modelData : ""
+            }
+        }
 
         ColorEditor {
             id: coloreditor
@@ -136,14 +151,14 @@ Control {
 
             /// FIXME: Binding loop
             Binding on color {
-                when: temp.palette.hasOwnProperty(control.selected)
-                value: temp.palette[selected]
+                when: buffer.palette.hasOwnProperty(control.selected)
+                value: buffer.palette[selected]
                 restoreMode: Binding.RestoreNone
             }
 
             onColorChanged: {
-                if(temp.palette[selected] !== color && temp.palette.hasOwnProperty(selected)) {
-                    temp.palette[selected] = color;
+                if(buffer.palette[selected] !== color && buffer.palette.hasOwnProperty(selected)) {
+                    buffer.palette[selected] = color;
                 }
             }
 
@@ -152,7 +167,7 @@ Control {
                 text: '+'
                 contentItem.rotation: 45
                 font.pixelSize: 15
-                onClicked: control.selected = '';
+                onClicked: buttonGroup.checkState = 0;
             }
         }
 
@@ -174,14 +189,17 @@ Control {
                     model: Object.keys(palette)
 
                     delegate: ColorDelegate {
-                        clip: true
-                        minibox: control.minibox
-                        color: temp.palette[modelData]
-                        width: minibox ? implicitContentWidth: control.availableWidth
+                        required property var modelData
 
-                        onEdited: val => temp.palette[modelData] = val;
-                        onResetClicked: if(control.validtarget) temp.palette[modelData] = control.target.palette[modelData];
-                        onClicked: control.selected = modelData;
+                        text: modelData
+                        clip: true
+                        minimized: control.minibox
+                        color: buffer.palette[modelData]
+                        width: minimized ? implicitContentWidth: control.availableWidth
+                        edited: buffer.palette[modelData] !== control.target.palette[modelData]
+
+                        onEdited: val => buffer.palette[modelData] = val;
+                        onResetClicked: if(control.validtarget) buffer.palette[modelData] = control.target.palette[modelData];
                     }
                 }
             }

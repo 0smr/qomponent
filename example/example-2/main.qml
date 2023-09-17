@@ -7,7 +7,7 @@ import Qomponent 0.1
 ApplicationWindow {
     id: window
 
-    width: 240; height: 250
+    width: 240; height: 410
     visible: true
 
     palette {
@@ -20,11 +20,36 @@ ApplicationWindow {
     }
 
     component Header: Label {
+        topPadding: 10
         width: parent.width
         wrapMode: Text.Wrap
-        font.family: Qomponent.monofont.name
         font.pixelSize: 10
+        font.family: Qomponent.monofont.name
         horizontalAlignment: Qt.AlignHCenter
+    }
+
+    component SimpleButton: RoundButton {
+        width: 40; height: 16
+        radius: 2; padding: 0
+        palette.mid: '#999'
+        palette.button: '#fff'
+        palette.buttonText: '#123'
+    }
+
+    component SimpleCheck: CheckBox {
+        padding: 0; height: 16
+        indicator: Control {
+            width: 16; height: 16
+            padding: 2 + 6 * !parent.checked
+            focusPolicy: Qt.NoFocus
+            contentItem: Rectangle { radius: 2; color: '#ddd' }
+            background: Rectangle {
+                radius: 3
+                color: 'transparent'
+                border.color: '#aaa'
+            }
+            Behavior on padding {NumberAnimation{}}
+        }
     }
 
     QtObject {
@@ -36,26 +61,49 @@ ApplicationWindow {
         property font subscript
     }
 
-    QGrid {
-        padding: 5
-        spacing: 10
+    PageIndicator {
+        x: (parent.width - width)/2
+        y: parent.height - height - 10
+        count: swipview.count
+        currentIndex: swipview.currentIndex
+
+        palette.dark: '#fff'
+    }
+
+    SwipeView {
+        id: swipview
+        currentIndex: 0
+        padding: 5; spacing: 5
+        anchors.fill: parent
 
         QGrid {
             spacing: 5
             vertical: true
-            horizontalItemAlignment: Qt.AlignLeft
 
             Header { text: 'Theme editor' }
+
+            Row {
+                spacing: 10
+                width: parent.width
+
+                SimpleCheck { id: checkbox; text: 'minibox' }
+                SimpleCheck { id: liveedit; text: 'live edit' }
+
+                SimpleButton {
+                    text: 'save'
+                    visible: !liveedit.checked && themeEditor.target.palette !== themeEditor.bufferPalette
+                    onClicked: themeEditor.save();
+                }
+            }
 
             ThemeEditor {
                 id: themeEditor
                 target: window
-                width: 230; height: 230
-                onTempPaletteChanged: save()
+                width: parent.width; height: 230
+                minibox: checkbox.checked
+                onBufferPaletteChanged: liveedit.checked && save()
             }
         }
-
-        GridSeparator {}
 
         QGrid {
             spacing: 5
@@ -64,30 +112,32 @@ ApplicationWindow {
             Header { text: 'FontSelector' }
 
             FontSelector {
-                width: 225
-                height: window.height - 26
+                width: parent.width
+                height: 200
 
                 palette.highlight: '#99ffffff'
 
                 target: fonts
                 properties: ['icon','mono','head','regular','subscript']
             }
-        }
 
-        GridSeparator {}
-
-        QGrid {
-            spacing: 5
-            vertical: true
-            Header { text: 'Offset: ' + linearGauge.offset.toFixed(1) }
-            Rectangle { width: 1; height: 4 }
-            LinearGauge {
-                id: linearGauge
-                width: 200; height: 40
-                minors: 20
+            Header {
+                text: 'Pattern: ' + (pattern.toArray().join(', ') || '-')
             }
 
+            PatternLock {
+                id: pattern
+                width: 100; height: width
+                onRelease: clear()
+            }
+        }
+
+        QGrid {
+            spacing: 10
+            vertical: true
+
             Header { text: 'Offset: ' + ['x','y'].map(v => gruler.offset[v].toFixed(1)).join(', ') }
+
             GridRuler {
                 id: gruler; width: 150; height: width
                 background: Rectangle {
@@ -97,22 +147,14 @@ ApplicationWindow {
                     opacity: 0.1
                 }
             }
-        }
 
-        GridSeparator {}
+            Header { text: 'Offset: ' + linearGauge.offset.toFixed(1) }
 
-        QGrid {
-            vertical: true
-            spacing: 5
-
-            Header {
-                text: 'Pattern: ' + (pattern.toArray().join(', ') || '-')
-            }
-
-            PatternLock {
-                id: pattern
-                width: 120; height: width
-                onRelease: clear()
+            Rectangle { width: 1; height: 4 }
+            LinearGauge {
+                id: linearGauge
+                width: parent.width - 20; height: 40
+                minors: 20
             }
         }
     }

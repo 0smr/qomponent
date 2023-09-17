@@ -12,9 +12,7 @@ import Qomponent 0.1
 ApplicationWindow {
     id: window
 
-    property real pagewidth: 255
-
-    width: pagewidth
+    width: 260
     height: 420
     visible: true
 
@@ -50,9 +48,8 @@ ApplicationWindow {
         }
     }
 
-    component Title: Text {
+    component Title: Label {
         color: palette.windowText
-        horizontalAlignment: Text.AlignHCenter
         font.bold: true
         opacity: 0.3
     }
@@ -64,7 +61,7 @@ ApplicationWindow {
     }
 
     Control {
-        x: 5; y: window.height - height - 10; z: 3
+        x: 5; y: window.height - height - 5; z: 3
         padding: 5
         background: Rectangle { color: palette.windowText; opacity: 0.2; radius: 3 }
         contentItem: Row {
@@ -82,162 +79,145 @@ ApplicationWindow {
     Settings {
         id: settings
         fileName: 'config.conf'
-        property real xscroll: flickable.xscroll
+        property alias cindex: swipview.currentIndex
     }
 
-    Flickable {
-        id: flickable
+    PageIndicator {
+        x: parent.width - width - 25
+        y: parent.height - height - 5
+        count: swipview.count
+        currentIndex: swipview.currentIndex
 
-        property real xscroll: ScrollBar.horizontal.position
-        Component.onCompleted: ScrollBar.horizontal.position = settings.xscroll
+        palette.dark: '#fff'
+    }
 
+    SwipeView {
+        id: swipview
+        padding: 5
+        spacing: padding
         anchors.fill: parent
-        interactive: false
-        ScrollBar.horizontal: ScrollBar {}
-
-        contentWidth: grid.width
-        contentHeight: height
 
         QGrid {
-            id: grid
-            padding: 5
+            vertical: true
             spacing: 5
-            width: children.width
-            height: window.height
 
-            Column {
-                width: pagewidth - 10; spacing: 5
+            Title { text: 'MultiRangeSlider' }
 
-                Title {
-                    text: 'MultiRangeSlider'
-                    width: parent.width
-                }
+            MultiRangeSlider { width: parent.width-20 }
 
-                MultiRangeSlider {
-                    width: parent.width-1
-                }
+            Title { text: 'TextAnimation' }
 
-                Title {
-                    text: 'TextAnimation'
-                    width: parent.width
-                }
+            Text {
+                id: txt
+                width: parent.width
+                color: palette.windowText
+                text: "Text\nAnimation"
+                font.family: Qomponent.monofont.name
+                horizontalAlignment: Text.AlignHCenter
+            }
 
-                Text {
-                    id: txt
-                    width: parent.width
-                    color: palette.windowText
-                    text: "Text\nAnimation"
-                    font.family: Qomponent.monofont.name
-                    horizontalAlignment: Text.AlignHCenter
-                }
+            TextAnimation {
+                id: tanim
+                target: txt
+                property: "text"
+                duration: 1000
+            }
 
-                TextAnimation {
-                    id: tanim
-                    target: txt
-                    property: "text"
-                    duration: 1000
-                }
-
-                Timer {
-                    property int idx: 0
-                    running: !tanim.running; repeat: true; interval: 5000
-                    onTriggered: {
-                        const strs = ["First, solve the problem.\n Then, write the code. (John Johnson)",
-                                      "Test for TextAnimation Component.\n(SMR)",
-                                      "Good code is its own best documentation.\n(Steve McConnell)",
-                                      "Knowledge is power.\n(Francis Bacon)"]
-                        tanim.to = strs[idx];
-                        idx = (idx + 1) % 4;
-                        tanim.restart();
-                    }
-                }
-
-                Title {
-                    text: 'Mini Markdown'
-                    width: parent.width
-                }
-
-                MiniMarkdown {
-                    width: parent.width
-                    trimStart: true
-                    text: "
-                        # h1
-                        ## h2
-                        ### h3
-                        #### h4
-                        normal-text *italic* **bold**<br>
-                        ***bold-italic*** `inline code`<br>
-                        <a href='https://0smr.github.io'>link</a>
-                        ```
-                        let x = 5;
-                        code.block;
-                        markdown.text();
-                        ```
-                        + list item 1 `+ one`
-                        + list item 2 `+ two`";
+            Timer {
+                property int idx: 0
+                running: !tanim.running; repeat: true; interval: 5000
+                onTriggered: {
+                    const strs = ["First, solve the problem.\n Then, write the code. (John Johnson)",
+                                  "Test for TextAnimation Component.\n(SMR)",
+                                  "Good code is its own best documentation.\n(Steve McConnell)",
+                                  "Knowledge is power.\n(Francis Bacon)"]
+                    tanim.to = strs[idx];
+                    idx = (idx + 1) % 4;
+                    tanim.restart();
                 }
             }
 
-            GridSeparator {}
+            Title { text: 'Mini Markdown' }
 
-            QGrid {
-                vertical: true
-                width: pagewidth - 10; spacing: 5
+            MiniMarkdown {
+                width: parent.width
+                trimStart: true
+                text: "
+                    # h1
+                    ## h2
+                    ### h3
+                    #### h4
+                    normal-text *italic* **bold**<br>
+                    ***bold-italic*** `inline code`<br>
+                    <a href='https://0smr.github.io'>link</a>
+                    ```
+                    let x = 5;
+                    code.block;
+                    markdown.text();
+                    ```
+                    + list item 1 `+ one`
+                    + list item 2 `+ two`";
+            }
+        }
 
-                Title {
-                    text: 'Circular Color Picker'
-                    width: parent.width
-                }
+        QGrid {
+            vertical: true
+            spacing: 5
 
-                Title {
-                    text: cp.color + '\n' +
-                          `hsv(${cp.hsvHue.toFixed(2)},` +
-                          `${cp.hsvSaturation.toFixed(2)},` +
-                          `${cp.hsvValue.toFixed(2)})\n` +
-                          `alpha(${cp.hsvAlpha.toFixed(2)})`
-                    width: parent.width
-                }
+            Title { text: 'Circular Color Picker' }
+            Item { width: parent.width; height: 1 }
 
-                CircularColorPicker { id: cp; x: 15; width: 130; height: width }
+            CircularColorPicker {
+                id: cp
+                width: 130; height: width
             }
 
-            GridSeparator {}
+            Title {
+                font.bold: false
+                text: cp.color + '\n' +
+                      `hsv(${cp.hsvHue.toFixed(2)},` +
+                      `${cp.hsvSaturation.toFixed(2)},` +
+                      `${cp.hsvValue.toFixed(2)})\n` +
+                      `alpha(${cp.hsvAlpha.toFixed(2)})`
+            }
+        }
+
+        QGrid {
+            vertical: true
+            spacing: 5
+
+            Title { text: 'UI Tour' }
+
+            UITour {
+                id: uitour
+                UITourItem {
+                    target: target1; align: Qt.AlignRight // default also is left
+                    text: "Please click here (Button)"
+                }
+                UITourItem {
+                    target: target2; align: Qt.AlignLeft
+                    text: "Please click here (Button 2)"
+                }
+            }
+
+            Row {
+                spacing: 5
+                Button {
+                    width: 50; height: 20
+                    text: 'start'
+                    onClicked: uitour.start(0);
+                }
+
+                Button {
+                    checkable: true
+                    width: 120; height: 20
+                    text: 'exnternal window'
+                    onClicked: uitour.external = checked;
+                }
+            }
 
             Column {
-                width: pagewidth - 10; spacing: 5
-                Title {
-                    text: 'UI Tour'
-                    width: parent.width
-                }
-
-                UITour {
-                    id: uitour
-                    UITourItem {
-                        target: target1; align: Qt.AlignRight // default also is left
-                        text: "Please click here (Button)"
-                    }
-                    UITourItem {
-                        target: target2; align: Qt.AlignLeft
-                        text: "Please click here (Button 2)"
-                    }
-                }
-
-                Row {
-                    spacing: 5
-                    Button {
-                        width: 50; height: 20
-                        text: 'start'
-                        onClicked: uitour.start(0);
-                    }
-
-                    Button {
-                        checkable: true
-                        width: 120; height: 20
-                        text: 'exnternal window'
-                        onClicked: uitour.external = checked;
-                    }
-                }
-
+                width: parent.width
                 Button {
                     id: target1
                     width: 20; height: 20
@@ -250,109 +230,101 @@ ApplicationWindow {
                     width: 20; height: 20
                     palette.button:'#f8d714'
                 }
+            }
 
-                Title {
-                    width: parent.width
-                    text: "Tooltips"
+
+            Title { text: "Tooltips" }
+
+            Title {
+                text: "To view the tooltip, hover over the button below."
+                opacity: 1; font.bold: false
+            }
+
+            Button {
+                width: 100; height: 20
+                palette.button:'#fb8500'
+                text: "Hover me"
+
+                HoverHandler { id: hh }
+                ToolTipPlus {
+                    x: hh.point.position.x - 20
+                    y: hh.point.position.y + 15
+                    text: "Hey, I'm Tooltip."
+                    delay: 500
+                    visible: hh.hovered
+                }
+            }
+
+            Title { text: "Varaint Spacing Row." }
+
+            Title {
+                text: "(Drag the Handle)"
+                opacity: 1; font.bold: false
+            }
+
+            Item {
+                width: parent.width; height: 50
+
+                VRow {
+                    id: vsrow
+                    height: parent.height; width: xhandle.x - 5
+                    Rectangle { width: 25; height: 25; color: '#8338ec' }
+                    Rectangle { width: 25; height: 25; color: '#f6bd60' }
+                    Rectangle { width: 25; height: 25; color: '#f28482' }
                 }
 
-                Title {
-                    width: parent.width
-                    text: "To view the tooltip, hover over the button below."
-                    opacity: 1; font.bold: false
+                Row {
+                    height: parent.height; width: xhandle.x - 5
+                    Item { width:25; height:5 }
+                    Title { width: vsrow.spacing; text: width.toFixed(); opacity: 1; font.bold: false }
+                    Item { width:25; height:5 }
+                    Title { width: vsrow.spacing; text: width.toFixed(); opacity: 1; font.bold: false }
+                    Item { width:25; height:5 }
                 }
 
-                Button {
-                    width: 100; height: 20
-                    palette.button:'#fb8500'
-                    text: "Hover me"
-
-                    HoverHandler { id: hh }
-                    ToolTipPlus {
-                        x: hh.point.position.x - 20
-                        y: hh.point.position.y + 15
-                        text: "Hey, I'm Tooltip."
-                        delay: 1500
-                        visible: hh.hovered
+                Rectangle { id: xhandle
+                    x: 100
+                    width: 5; height: parent.height; radius: 5
+                    color: '#84a59d'
+                    DragHandler {
+                        margin: 10
+                        yAxis.enabled: false
+                        xAxis.minimum: 75
+                        xAxis.maximum: parent.parent.width
+                        cursorShape: Qt.SizeHorCursor
                     }
                 }
+            }
 
-                Title {
-                    width: parent.width
-                    text: "Varaint Spacing Row."
+            Title { text: "Mini Keyboard" }
+
+            QGrid {
+                vertical: true
+                preferredRows: 2
+
+                component TField: TextField {
+                    width: 120; height: 25
                 }
 
-                Title {
-                    text: "(Drag the Handle)"
-                    opacity: 1; font.bold: false
+                spacing: 4
+
+                MiniKeyboard { enabled: true }
+
+                TField {
+                    inputMethodHints: Qt.ImhDigitsOnly
+                    placeholderText: "digit only"
                 }
-
-                Item {
-                    width: parent.width; height: 50
-
-                    VRow {
-                        id: vsrow
-                        height: parent.height; width: xhandle.x - 5
-                        Rectangle { width: 25; height: 25; color: '#8338ec' }
-                        Rectangle { width: 25; height: 25; color: '#f6bd60' }
-                        Rectangle { width: 25; height: 25; color: '#f28482' }
-                    }
-
-                    Row {
-                        height: parent.height; width: xhandle.x - 5
-                        Item { width:25; height:5 }
-                        Title { width: vsrow.spacing; text: width.toFixed(); opacity: 1; font.bold: false }
-                        Item { width:25; height:5 }
-                        Title { width: vsrow.spacing; text: width.toFixed(); opacity: 1; font.bold: false }
-                        Item { width:25; height:5 }
-                    }
-
-                    Rectangle { id: xhandle
-                        x: 100
-                        width: 5; height: parent.height; radius: 5
-                        color: '#84a59d'
-                        DragHandler {
-                            yAxis.enabled: false
-                            xAxis.minimum: 75
-                            xAxis.maximum: parent.parent.width
-                            cursorShape: Qt.SizeHorCursor
-                        }
-                    }
+                TField {
+                    inputMethodHints: Qt.ImhLatinOnly
+                    placeholderText: "alphabet only"
                 }
-
-                Title {
-                    text: "Mini Keyboard"
-                    opacity: 1; font.bold: false
+                TField {
+                    inputMethodHints: Qt.ImhPreferUppercase
+                    placeholderText: "prefer uppercase"
                 }
-
-                QGrid {
-                    vertical: true
-                    preferredRows: 2
-
-                    component TField: TextField {
-                        width: 120; height: 25
-                    }
-
-                    spacing: 4
-
-                    MiniKeyboard { enabled: true }
-
-                    TField {
-                        inputMethodHints: Qt.ImhDigitsOnly
-                        placeholderText: "digit only"
-                    }
-                    TField {
-                        inputMethodHints: Qt.ImhLatinOnly
-                        placeholderText: "alphabet only"
-                    }
-                    TField {
-                        inputMethodHints: Qt.ImhPreferUppercase
-                        placeholderText: "prefer uppercase"
-                    }
-                    TField {
-                        inputMethodHints: Qt.ImhLowercaseOnly
-                        placeholderText: "lowercase only"
-                    }
+                TField {
+                    inputMethodHints: Qt.ImhLowercaseOnly
+                    placeholderText: "lowercase only"
                 }
             }
         }

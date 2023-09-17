@@ -37,8 +37,8 @@ const _qget = function(properties, _default = undefined) {
  * @param {Number} max
  * @returns Return a value between min and max.
  */
-const _qmap = function(from, to) {
-    return (this - from[0]) / (from[1] - from[0]) * (to[1] - to[0]) + to[0];
+const _qmap = function([a, b], [m, n]) {
+    return (this - a) / (b - a) * (n - m) + m;
 }
 
 /**

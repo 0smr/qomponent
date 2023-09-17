@@ -17,7 +17,7 @@ Item {
      * @param properties new properties
      * @returns Input font with new properties.
      */
-    function font(ifont: font, properties): font {
+    function font(ifont: font, properties: Object): font {
         return Qt.font(Object.assign({}, ifont, properties));
     }
 
@@ -32,27 +32,39 @@ Item {
     }
 
     /**
+     * @abstract This function create a clone of input object and override with new values.
      * @method qassign
-     * @param object input font
-     * @param value new properties
-     * @returns dict font with new properties.
+     * @param {Object} object, input object
+     * @param {Object} value, new verride values
+     * @returns cloned object with new properties.
      */
-    function qassign(object, value) {
-        let temp = Object.assign({}, object, {})
-        for(const key in value) {
-            if(object.hasOwnProperty(key)) {
-                temp[key] = value[key];
-            }
-        }
-        return temp;
+    function qassign(object: Object, values: Object): Object {
+        const obj = Object.assign({}, object, {})
+        Object.keys(values)
+            .filter(k => object.hasOwnProperty(k))
+            .forEach(k => obj[k] = value[k]);
+        return obj;
+    }
+
+    /**
+     * @param {Object} object, input object.
+     * @param {Array} value, filter property keys.
+     * @returns {Object} cloned object with filtred properties.
+     */
+    function qfilter(object: Object, filter: Array): Object {
+        const obj = {};
+        Object.keys(object)
+            .filter(k => !filter.includes(k))
+            .forEach(k => obj[k] = object[k]);
+        return obj;
     }
 
     /**
      * @method copy
      * Copy input text to clipboard.
-     * @param text
+     * @param {String} text
      */
-    function copy(text) {
+    function copy(text: string) {
         dummytedit.text = text;
         dummytedit.selectAll();
         dummytedit.copy();

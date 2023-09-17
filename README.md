@@ -1,6 +1,6 @@
 # QML Qomponent
-<p><img src="https://img.shields.io/github/v/tag/smr76/qomponent?sort=semver&label=version" alt="version tag">
-<img src="https://img.shields.io/github/license/smr76/qomponent?color=36b245" alt="license">
+<p><img src="https://img.shields.io/github/v/tag/0smr/qomponent?sort=semver&label=version" alt="version tag">
+<img src="https://img.shields.io/github/license/0smr/qomponent?color=36b245" alt="license">
 <a href="https://www.blockchain.com/bch/address/bitcoincash:qrnwtxsk79kv6mt2hv8zdxy3phkqpkmcxgjzqktwa3">
 <img src="https://img.shields.io/badge/BCH-Donate-f0992e?logo=BitcoinCash&logoColor=f0992e" alt="BCH donate"></a></p>
 
@@ -28,7 +28,7 @@
 
 + Clone the repository first.
     ```bash
-    git clone "https://github.com/SMR76/qomponent.git"
+    git clone "https://github.com/0smr/qomponent.git"
     ```
 + Then add `qomponent` to your makefile.
     * **QMake**: <sub>[example-1](example/example-1/example-1.pro#L7)</sub>
@@ -74,7 +74,7 @@ If you are confused, please refer to [example-1](example/example-1) for a cleare
 
 ## Issues
 
-Please file an issue on [issues page](https://github.com/SMR76/qomponent/issues) if you have any problems.
+Please file an issue on [issues page](https://github.com/0smr/qomponent/issues) if you have any problems.
 
 ## Documentation
 
