@@ -61,8 +61,8 @@ TextField {
         implicitWidth: 50
         implicitHeight: 20
 
-        color: control.palette.base
-        border.color: control.palette.mid
+        color: Qomponent.alpha(palette.base, 0.3)
+        border.color: palette.alternateBase
         border.width: 1
         opacity: 0.3 + 0.3 * control.focus
         radius: 3

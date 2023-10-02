@@ -14,6 +14,7 @@ GridRuler           0.1 base/GridRuler.qml
 FocusEffect         0.1 base/FocusEffect.qml
 ColorPicker         0.1 base/ColorPicker.qml
 ColorEditor         0.1 base/ColorEditor.qml
+FontEditor          0.1 base/FontEditor.qml
 UITourItem          0.1 base/UITourItem.qml # This component is associated with "UITour"
 
 QGrid               0.1 quick/QGrid.qml

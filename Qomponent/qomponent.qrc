@@ -40,5 +40,6 @@
         <file>VRow.qml</file>
         <file>FontSelector.qml</file>
         <file>AutoCompleteInput.qml</file>
+        <file>base/FontEditor.qml</file>
     </qresource>
 </RCC>

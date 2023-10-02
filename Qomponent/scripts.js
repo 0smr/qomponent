@@ -21,7 +21,7 @@ const _qat = function(index) {
  *  Return the final property in the properties chain, or default if the value is undefined.
  */
 const _qget = function(properties, _default = undefined) {
-    const keys = [] instanceof Array ? properties : properties.split(/[\[\]\.]/).filter(x => x);
+    const keys = properties instanceof Array ? properties : properties.split(/[\[\]\.]/).filter(x => x);
     let result = this;
     for(const key of keys) {
         if(result[key] === undefined) return _default;
@@ -128,7 +128,7 @@ String.prototype.qsplice = _qsplice;
  */
 function readableTime(milis) {
     const timestamps = [
-        {txt:qsTr("month"),  ts: 2629746000}, // 30.436875 * 24 * 60 * 60 * 1000
+        {txt:qsTr("month"),  ts: 2629743999.84}, // 30.43685185 * 24 * 60 * 60 * 1000
         {txt:qsTr("week"),   ts: 604800000},
         {txt:qsTr("day"),    ts: 86400000},
         {txt:qsTr("hour"),   ts: 3600000},
