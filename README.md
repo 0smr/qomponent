@@ -48,7 +48,7 @@
 + Import the `Qomponent` module.
     <sub>[example-1](example/example-1/main.qml#L10)</sub>
     ```qml
-    import Qomponent 0.1
+    import Qomponent 0.2
     ```
 
 If you are confused, please refer to [example-1](example/example-1) for a clearer understanding of what you should do.
