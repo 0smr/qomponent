@@ -22,6 +22,10 @@ Control {
             height: control.height
 
             fragmentShader: '
+                #ifdef GL_ES
+                    precision highp float;
+                    precision highp int;
+                #endif
                 varying highp vec2 qt_TexCoord0;
                 uniform highp float qt_Opacity;
                 uniform highp vec4 color;

@@ -36,7 +36,6 @@ Control {
 
     ShaderEffectSource {
         id: shaderSource
-        sourceItem: content
         visible: false
         live: false
     }
@@ -62,6 +61,11 @@ Control {
         }
 
         fragmentShader: "
+            #ifdef GL_ES
+                precision highp float;
+                precision highp int;
+            #endif
+
             uniform sampler2D source;
             varying highp vec2 qt_TexCoord0;
             uniform highp float qt_Opacity;

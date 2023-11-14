@@ -51,8 +51,8 @@ Control {
     }
 
     background: Rectangle {
-        color: 'transparent'
-        border.color: '#fff'
+        color: Qomponent.alpha(border.color, 0.3)
+        border.color: palette.alternateBase
         opacity: 0.5
         radius: 2
     }
@@ -62,8 +62,8 @@ Control {
         ColorPicker {
             id: colorpicker
 
-            width: 70 + spectrumWidth
-            height: 70
+            width: parent.height + spectrumWidth
+            height: parent.height
             spectrumWidth: focus ? 8 : 5
             Behavior on spectrumWidth { NumberAnimation {} }
         }

@@ -13,6 +13,9 @@ Control {
 	property alias offset: effect.offset
 	property alias color: effect.color
 	property alias origin: effect.origin
+	property alias interactive: draghandler.enabled
+	property alias drag: draghandler
+	property var filter: undefined
 
 	contentItem: Item {
 		clip: true
@@ -30,6 +33,7 @@ Control {
 			fragmentShader: "qrc:/Qomponent/shader/grid-ruler.glsl"
 
 			DragHandler {
+				id: draghandler
 				property vector2d init: Qt.vector2d(0,0)
 				target: null
 				dragThreshold: 0
@@ -41,21 +45,22 @@ Control {
 		Repeater {
 			model: ['x','y']
 			Repeater {
-				property int gstep: control.step[modelData]
-				property int goffset: control.offset[modelData]
 				property bool horizontal: modelData === 'x'
+				property real gstep: control.step[modelData]
+				property real goffset: control.offset[modelData]
 				property real dist: horizontal ? parent.width : parent.height
 
-				model: dist/gstep + 1
+				model: dist/gstep + 2
 
 				delegate: Label {
 					property int idx: index - 1
 					property real pos: idx * gstep - goffset % gstep + (dist/2 % gstep)
 					property bool needsRotate: horizontal && gstep < (implicitWidth + 5)
+					readonly property real value: ([y,x][horizontal * 1] - dist/2 + goffset)
 
 					x: horizontal && pos
 					y: !horizontal && pos
-					text: [y,x][horizontal * 1] - dist/2 + goffset
+					text: filter ? filter(value, horizontal) : value
 
 					opacity: x/20 + y
 					font.family: Qomponent.monofont.name

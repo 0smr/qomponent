@@ -44,5 +44,6 @@
         <file>TimePicker.qml</file>
         <file>base/QRect.qml</file>
         <file>BarChart.qml</file>
+        <file>base/FontEditor.qml</file>
     </qresource>
 </RCC>

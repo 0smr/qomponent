@@ -14,7 +14,7 @@ Control {
     id: control
 
     /// @property {string} selected, Selected font property name.
-    property string selected: ''
+    property string activeProperty: ''
     /// @property {*} properties, A model or array containing font property names.
     property alias properties: listview.model
     /// @property {QtObject} target, The target object contains font properties (i.e., a global singleton component for fonts).
@@ -22,7 +22,7 @@ Control {
     /// @property {*} styles, Array containing font style names.
     property var styles: ['bold','italic','underline','strikeout']
 
-    property var systemFontFamilies: Qt.fontFamilies()
+    property var fontFamilies: Qt.fontFamilies()
 
     /// @component PropLabel, Customized Label
     component PropLabel: Label {
@@ -37,178 +37,32 @@ Control {
         }
     }
 
-    /// @component ToolBtn, Customized ToolButton
-    component ToolBtn: ToolButton {
-        padding: 5
-        topPadding: 3; bottomPadding: 3
-        opacity: 0.8 + 0.2 * !down
-
-        background: Rectangle {
-            border.color: control.palette.text
-            color: Qomponent.alpha(border.color, parent.checked)
-            opacity: 0.3
-            radius: 2
-        }
-    }
-
-    /// @component TabBtn, Customized TabButton
-    component TabBtn: TabButton {
-        padding: 1
-        width: implicitWidth
-        opacity: 0.5 + checked * 0.5
-        background: null
-    }
-
-    /// @component SizeSlider, Customized Slider
-    component SizeSlider: Slider {
-        padding: 1; width: 50; height: 10
-        stepSize: 1.0
-
-        handle: Rectangle {
-            x: parent.visualPosition * parent.availableWidth
-            width: 1; height: 10
-            color: '#f03b33'
-        }
-
-        background: Ruler {
-            property real sec: width/(parent.to - parent.from + thickness - 0.1)
-
-            thickness: 0.5
-            step: Qt.vector4d(2,sec/4,sec/2, sec)
-            size: Qt.vector4d(0,0.2,0.4,0.6)
-            color: parent.palette.text
-            origin: color
-            offset: width/2
-        }
-    }
-
-    /// @component FontEditor, A customized component to edit single font properties.
-    component FontEditor: Control {
-        id: editor
-
-        /// @property {*} selected, Selected font property
-        property var selected: control.target[control.selected] ?? font
-
-        padding: 5
-        clip: true
-
-        contentItem: Column {
-            spacing: 3
-
-            VRow {
-                width: parent.width
-
-                Label {
-                    padding: 3
-                    opacity: 0.5
-                    text: control.selected
-                }
-
-                AutoCompleteInput {
-                    text: editor.selected.family ?? ''
-                    wordList: control.systemFontFamilies
-                    delimiter: ','
-                    selectByMouse: true
-                    onTextEdited: editor.selected.family = text
-                }
-
-                ToolBtn {
-                    text: '+'
-                    padding: 3
-                    contentItem.rotation: 45
-                    onClicked: {
-                        /// Uncheck selected button
-                        buttonGroup.checkedButton.checked = false;
-                        control.selected = '';
-                    }
-                }
-            }
-
-            Row {
-                spacing: 3
-                Repeater {
-                    model: control.styles
-
-                    ToolBtn {
-                        property string prop: modelData
-
-                        text: prop[0].toUpperCase()
-                        font: Qt.font({[prop]:true})
-                        checkable: true
-                        checked: editor.selected[prop]
-                        onCheckedChanged: editor.selected[prop] = checked
-                    }
-                }
-            }
-
-            VRow {
-                width: parent.width
-                Label {
-                    id: sizeLabel
-                    font: Qomponent.monofont.name
-                    text: slider.value.toFixed(unit.idx).padEnd(4)
-                }
-
-                TabBar {
-                    id: unit
-                    property alias idx: unit.currentIndex
-                    TabBtn { text: 'px' }
-                    TabBtn { text: 'pt' }
-                }
-
-                SizeSlider {
-                    id: slider
-                    property var props: ['pixelSize','pointSize']
-                    width: editor.availableWidth - 80
-                    from: 3; to: 28
-                    value: editor.selected[props[unit.idx]]
-                    onMoved: {
-                        /// Create a clone font with filtered properties
-                        var newFont = Qt.font(Qomponent.qfilter(editor.selected, props));
-                        /// Assgin new property
-                        newFont[props[unit.idx]] = value;
-                        /// Assign new font to taget
-                        control.target[control.selected] = newFont;
-                    }
-                }
-            }
-
-            Row {
-                spacing: 3
-                Label { text: 'sample:'; opacity: 0.5 }
-
-                TextInput { /// Test Text Input
-                    text: '123abcABC-,'
-                    color: palette.text
-                    font: editor.selected
-                    selectionColor: control.palette.highlight
-                    selectedTextColor: control.palette.highlightedText
-                }
-            }
-        }
-
-        background: Rectangle {
-            border.color: palette.text
-            color: palette.base
-            opacity: 0.3
-            radius: 2
-        }
-    }
 
     contentItem: Column {
         spacing: 5
-        ButtonGroup { id: buttonGroup }
+        ButtonGroup {
+            id: buttonGroup
+            onCheckedButtonChanged: control.activeProperty = checkedButton ? checkedButton.type : '';
+        }
 
+        /// @component FontEditor, A customized component to edit single font properties.
         FontEditor {
             id: fontEditor
-            visible: control.selected
             width: control.availableWidth
+            visible: control.activeProperty
+
+            styles: control.styles
+            target: control.target
+            property: control.activeProperty
+            fontFamilies: control.fontFamilies
+
+            onCloseClicked: buttonGroup.checkState = 0;
         }
 
         ListView {
             id: listview
             clip: true
-            spacing: 2
+            spacing: 3
 
             width: control.availableWidth
             height: control.availableHeight - fontEditor.visible * fontEditor.height - 5
@@ -225,7 +79,7 @@ Control {
                 padding: 5
                 checkable: true
 
-                onClicked: control.selected = type
+                onClicked: control.activeProperty = type
 
                 contentItem: Flow {
                     spacing: 4
@@ -265,9 +119,9 @@ Control {
                 }
 
                 background: Rectangle {
-                    color: Qomponent.alpha(palette.text, fontdelegate.checked * 0.5)
-                    border.color: palette.text
-                    opacity: 0.3
+                    color: Qomponent.alpha(palette.base, fontdelegate.checked * 0.5)
+                    border.color: palette.alternateBase
+                    opacity: 0.5
                     radius: 2
                 }
             }
