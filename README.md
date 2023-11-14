@@ -67,8 +67,10 @@ If you are confused, please refer to [example-1](example/example-1) for a cleare
 |Guide     |MiniKeyboard |PatternLock |
 |GridRuler |VRow         |LinearGauge |
 |FocusEffect|ArcSlider    |ThemeEditor|
-|ColorEditor|DragableGridView |-|
-|UITourItem |MultiRangeSlider |-|
+|ColorEditor|DragableGridView |FontSelector|
+|UITourItem |MultiRangeSlider |AutoCompleteInput|
+|ElasticEffect|TimePicker|BarChart|
+|QRect|-|-|-|
 
 </div>
 

@@ -15,11 +15,13 @@ FocusEffect         0.1 base/FocusEffect.qml
 ColorPicker         0.1 base/ColorPicker.qml
 ColorEditor         0.1 base/ColorEditor.qml
 UITourItem          0.1 base/UITourItem.qml # This component is associated with "UITour"
+ElasticEffect       0.1 base/ElasticEffect.qml
+QRect               0.1 base/QRect.qml
 
 QGrid               0.1 quick/QGrid.qml
 GridSeparator       0.1 quick/GridSeparator.qml
 
-# EyeDropper        0.1 EyeDropper.qml # TODO: add cpp side
+# EyeDropper        0.0 EyeDropper.qml # TODO: add cpp side
 ToolTipPlus         0.1 ToolTipPlus.qml
 UITour              0.1 UITour.qml
 MiniKeyboard        0.1 MiniKeyboard.qml # Mini virtual keyboard.
@@ -39,3 +41,5 @@ ThemeEditor         0.1 ThemeEditor.qml
 FontSelector        0.1 FontSelector.qml
 AutoCompleteInput   0.1 AutoCompleteInput.qml
 RippleTT            0.1 RippleThemeTransition.qml
+TimePicker          0.2 TimePicker.qml
+BarChart            0.2 BarChart.qml # Pure QML shader-based bar chart (This may be changed to a multipurpose Chart.qml in future)
