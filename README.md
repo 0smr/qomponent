@@ -20,9 +20,8 @@
 </table>
 
 ## How to use
-> **Note**<br>
+> [!WARNING]
 > Components in this repository are still in development, thus changes over each update may be significant.
-> <br>&nbsp;
 
 ### Usage
 
@@ -30,28 +29,22 @@
     ```bash
     git clone "https://github.com/0smr/qomponent.git"
     ```
-+ Then add `qomponent` to your makefile.
-    * **QMake**: <sub>[example-1](example/example-1/example-1.pro#L7)</sub>
-        ```make
-        include("path/to/Qomponent.pri")
-        ```
-    * **CMake**: <sub>[example-3](example/example-3/CMakeLists.txt#L30..L32)</sub>
-        ```cmake
-        add_subdirectory(path/to/Qomponent/)
-        target_link_libraries(${target-name} qomponent)
-        ```
-+ Add `qrc:/` to the engine's import path.
-    <sub>[example-1](example/example-1/main.cpp#L17)</sub>
-    ```cpp
-    engine.addImportPath("qrc:/");
++ Then add `qomponent` to your makefile. <sub>[example-1](example/example-1/CMakeLists.txt#L18..L19)</sub>
+    * **CMake**:
+    ```cmake
+    add_subdirectory(path/to/qomponent/)
+    target_link_libraries(my-target qomponentplugin)
     ```
-+ Import the `Qomponent` module.
-    <sub>[example-1](example/example-1/main.qml#L10)</sub>
++ Import the `qomponent` module.
+    <sub>[example-1](example/example-1/Main.qml#L4)</sub>
     ```qml
-    import Qomponent 0.2
+    import qomponent
     ```
 
 If you are confused, please refer to [example-1](example/example-1) for a clearer understanding of what you should do.
+
+> [!NOTE]
+> This project will no longer support ***Qt 5***, and all components have been ported to ***Qt 6***.
 
 ## Components
 
@@ -61,16 +54,15 @@ If you are confused, please refer to [example-1](example/example-1) for a cleare
 |--|--|--|
 |ColorPicker|CircularColorPicker|RippleTT|
 |BoxShadow |QGrid        |GirdSeparator|
-|FastShadow|GridSeparator|TextAnimation|
+|QRect     |GridSeparator|TextAnimation|
 |Pie       |ToolTipPlus  |Tiltable    |
 |Ruler     |UITour       |MiniMarkdown|
-|Guide     |MiniKeyboard |PatternLock |
-|GridRuler |VRow         |LinearGauge |
-|FocusEffect|ArcSlider    |ThemeEditor|
+|Guide     |MiniKeyboard |PatternLock|
+|GridRuler |VRow         |LinearGauge|
+|FocusEffect|ArcSlider   |ThemeEditor|
 |ColorEditor|DragableGridView |FontSelector|
 |UITourItem |MultiRangeSlider |AutoCompleteInput|
 |ElasticEffect|TimePicker|BarChart|
-|QRect|-|-|-|
 
 </div>
 

@@ -1,5 +1,5 @@
+import QtQuick
 import QtQuick.Controls.Basic
-import QtQuick.Window
 
 ApplicationWindow {
     id: window

@@ -33,7 +33,7 @@ qt_add_qml_module(${PROJECT_NAME}
         Page2.qml
 )
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../Qomponent/ ${CMAKE_CURRENT_BINARY_DIR}/qomponent)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../qomponent/ ${CMAKE_CURRENT_BINARY_DIR}/qomponent)
 
 target_include_directories(example-3 PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/qomponent)
 

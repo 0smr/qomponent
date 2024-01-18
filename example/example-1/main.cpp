@@ -1,11 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-int main(int argc, char *argv[])
-{
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
+int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
 
     app.setOrganizationName("smr");
@@ -13,16 +9,11 @@ int main(int argc, char *argv[])
     app.setApplicationName("example-1");
 
     QQmlApplicationEngine engine;
-    // Path to module.
-    engine.addImportPath("qrc:/");
 
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-        &app, [url](QObject *obj, const QUrl &objUrl) {
-            if (!obj && url == objUrl)
-                QCoreApplication::exit(-1);
-        }, Qt::QueuedConnection);
-    engine.load(url);
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,
+        &app, []() { QCoreApplication::exit(-1); },
+        Qt::QueuedConnection);
+    engine.loadFromModule("example", "Main");
 
     return app.exec();
 }
