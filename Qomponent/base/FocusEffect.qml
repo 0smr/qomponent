@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 // https://0smr.github.io
 
-import QtQuick 2.15
+import QtQuick
 
 ShaderEffect {
     property real radius
@@ -12,5 +12,5 @@ ShaderEffect {
     readonly property real _radius: radius/width
     readonly property vector2d _center: Qt.vector2d(center.x, center.y).times(1/width)
 
-    fragmentShader: "qrc:/Qomponent/shader/focus.glsl"
+    fragmentShader: "qrc:/qomponent/shader/focus.frag.qsb"
 }

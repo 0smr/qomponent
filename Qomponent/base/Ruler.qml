@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 // https://0smr.github.io
 
-import QtQuick 2.15
+import QtQuick
 
 ShaderEffect {
     property real offset: 0;
@@ -14,5 +14,5 @@ ShaderEffect {
     property color color: "#f1f2f3"
     property color origin: "#f70101"
 
-    fragmentShader: "qrc:/Qomponent/shader/ruler.glsl"
+    fragmentShader: "qrc:/qomponent/shader/ruler.frag.qsb"
 }

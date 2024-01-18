@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 // https://0smr.github.io
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls.Basic
 
 Control {
     id: control
@@ -21,18 +21,7 @@ Control {
             width: control.width - spectrumWidth
             height: control.height
 
-            fragmentShader: '
-                #ifdef GL_ES
-                    precision highp float;
-                    precision highp int;
-                #endif
-                varying highp vec2 qt_TexCoord0;
-                uniform highp float qt_Opacity;
-                uniform highp vec4 color;
-                void main() {
-                    vec2 uv = qt_TexCoord0;
-                    gl_FragColor = vec4(mix(mix(vec3(1.), color.xyz, uv.x), vec3(0.0), uv.y), qt_Opacity);
-                }'
+            fragmentShader: 'qrc:/qomponent/shader/saturation-spectrom.frag.qsb'
 
             PointHandler {
                 onPointChanged: {
@@ -56,13 +45,7 @@ Control {
 
         ShaderEffect {
             width: spectrumWidth; height: control.availableHeight
-            fragmentShader: '
-                varying highp vec2 qt_TexCoord0;
-                uniform highp float qt_Opacity;
-                void main() {
-                    gl_FragColor.xyz = clamp(abs(fract(qt_TexCoord0.y + vec3(1.,.66,.33)) * 6. - 3.) - 1.,0.,1.);
-                    gl_FragColor.w = qt_Opacity;
-                }'
+            fragmentShader: 'qrc:/qomponent/shader/value-spectrom.frag.qsb'
 
             PointHandler {
                 onPointChanged: {

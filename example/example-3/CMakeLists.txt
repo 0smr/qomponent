@@ -12,20 +12,30 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-if(QT_VERSION_MAJOR EQUAL 6)
-    find_package(Qt6 REQUIRED COMPONENTS Core Quick)
-    set(QT_LIBS Qt::Core Qt::Quick)
-    qt_add_resources(rcc_file qml.qrc)
-else()
-    find_package(Qt5 REQUIRED COMPONENTS Core Quick)
-    set(QT_LIBS Qt5::Core Qt5::Quick)
-    qt5_add_resources(rcc_file qml.qrc)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
+
+qt_standard_project_setup(REQUIRES 6.5)
+
+qt_add_executable(example-3
+    main.cpp
+)
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(NoCache NO_CACHEGEN)
 endif()
 
-add_executable(example-3
-    ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
-    ${rcc_file}
+qt_add_qml_module(${PROJECT_NAME}
+    URI example
+    ${NoCache}
+    QML_FILES
+        Main.qml
+        Page1.qml
+        Page2.qml
 )
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../Qomponent/ ${CMAKE_CURRENT_BINARY_DIR}/qomponent)
-target_link_libraries(example-3 ${QT_LIBS} qomponent)
+
+target_include_directories(example-3 PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/qomponent)
+
+target_link_libraries(example-3 PRIVATE Qt::Core Qt::Quick)
+target_link_libraries(example-3 PRIVATE qomponentplugin)

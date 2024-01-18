@@ -7,8 +7,8 @@
 //  such as family name, bold, italic, strikeout, underline, point size, and pixel size.
 // note: style list can be modified.
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls.Basic
 
 Control {
     id: control

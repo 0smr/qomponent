@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: MIT
 // https://0smr.github.io
 
-import QtQuick 2.15
-import QtQuick.Shapes 1.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Shapes
+import QtQuick.Controls.Basic
 
 Control {
     id: control

@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: MIT
 // https://0smr.github.io
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls.Basic
 
-import Qomponent 0.1
+import qomponent 0.2
 
 Control {
     id: control

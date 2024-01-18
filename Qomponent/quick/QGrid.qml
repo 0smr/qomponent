@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: MIT
 // https://0smr.github.io
 
-import QtQuick 2.15 as QQ215
+import QtQuick
 
-QQ215.Grid {
+Grid {
     id: control
 
     property int preferredRows: 1
@@ -15,7 +15,7 @@ QQ215.Grid {
 
     rows: vertical ? -1 : preferredRows
     columns: vertical ? preferredRows : -1
-    flow: QQ215.Grid.LeftToRight
+    flow: Grid.LeftToRight
     layoutDirection: Qt.LeftToRight
-    horizontalItemAlignment: QQ215.Grid.AlignHCenter
+    horizontalItemAlignment: Grid.AlignHCenter
 }

@@ -6,9 +6,9 @@
 //  and provides a user-friendly panel for easily changing and editing palette colors.
 // Currently, this component is designed for Qt5 controls and has not been tested for Qt6.
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQml 2.15
+import QtQuick
+import QtQuick.Controls.Basic
+import QtQml
 
 Control {
     id: control
@@ -28,7 +28,7 @@ Control {
 
     /// @abstract This function copy the temporary palette to the target palette.
     function save() {
-        const keys = Object.keys(buffer.palette);
+        const keys = Object.keys(buffer.palette).filter(k => buffer.palette[k].hasOwnProperty('r'));
         keys.forEach(k => target[control.property][k] = buffer.palette[k]);
     }
 
@@ -199,7 +199,7 @@ Control {
                 width: control.availableWidth
 
                 Repeater {
-                    model: Object.keys(buffer.palette)
+                    model: Object.keys(buffer.palette).filter(k => buffer.palette[k].hasOwnProperty('r'))
 
                     delegate: ColorDelegate {
                         required property var modelData

@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 // https://0smr.github.io
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls.Basic
 
 Control {
     id: control
@@ -21,6 +21,6 @@ Control {
         readonly property real to: (control.to - control.from) * 0.0174533
         readonly property color color: control.palette.base;
 
-        fragmentShader: "qrc:/Qomponent/shader/pie.glsl"
+        fragmentShader: "qrc:/qomponent/shader/pie.frag.qsb"
     }
 }

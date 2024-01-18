@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: MIT
 // https://0smr.github.io
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQml 2.15
+import QtQuick
+import QtQuick.Controls.Basic
+import QtQml
 
-import Qomponent 0.1
+import qomponent 0.2
 
 Control {
     id: control
@@ -163,7 +163,7 @@ Control {
                         object.y = Math.max(0, Math.min(mouse.y, height/2));
                     }
                 }
-                onPressAndHold: {
+                onPressAndHold: function(mouse) {
                     object = handleComponent.createObject(container, {
                         x: mouse.x - handleSize.width/2,
                         y: mouse.y,
@@ -173,7 +173,7 @@ Control {
                     /// Emit handleCreated signal
                     control.handleCreated(object, object.value);
                 }
-                onReleased: {
+                onReleased: function(mouse) {
                     if(object && mouse.y < height * 0.3) {
                         priv.set(object.index, object);
                         object.y = 0; /// Snap handle to top

@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: MIT
 // https://0smr.github.io
 
-import QtQuick 2.15
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.15
-import QtGraphicalEffects 1.0
-import QtQml.Models 2.12
+import QtQuick
+import QtQuick.Controls.Basic
+import QtQuick.Layouts
+import QtQml.Models
 
 Control {
     id: control
@@ -272,10 +271,6 @@ Control {
 
 //                                    listModel.move(srcIdx, destIdx, 1)
                                 }
-                            }
-
-                            onDropped: {
-                                print('hi')
                             }
                         }
                     }

@@ -4,7 +4,7 @@
 
 pragma Singleton
 
-import QtQuick 2.15
+import QtQuick
 
 Item {
     id: root
@@ -17,7 +17,7 @@ Item {
      * @param properties new properties
      * @returns Input font with new properties.
      */
-    function font(ifont: font, properties: Object): font {
+    function font(ifont: font, properties): font {
         return Qt.font(Object.assign({}, ifont, properties));
     }
 
@@ -38,7 +38,7 @@ Item {
      * @param {Object} value, new verride values
      * @returns cloned object with new properties.
      */
-    function qassign(object: Object, values: Object): Object {
+    function qassign(object, values) {
         const obj = Object.assign({}, object, {})
         Object.keys(values)
             .filter(k => object.hasOwnProperty(k))
@@ -51,7 +51,7 @@ Item {
      * @param {Array} value, filter property keys.
      * @returns {Object} cloned object with filtred properties.
      */
-    function qfilter(object: Object, filter: Array): Object {
+    function qfilter(object, filter) {
         const obj = {};
         Object.keys(object)
             .filter(k => !filter.includes(k))
@@ -74,6 +74,6 @@ Item {
 
     FontLoader {
         id: mplus1code
-        source: 'qrc:/Qomponent/font/mplus1code.ttf'
+        source: 'qrc:/qomponent/font/mplus1code.ttf'
     }
 }

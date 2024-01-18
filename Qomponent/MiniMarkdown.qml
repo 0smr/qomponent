@@ -2,15 +2,14 @@
 // SPDX-License-Identifier: MIT
 // https://0smr.github.io
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls.Basic
 
 Control {
     id: control
     property string css: "h1,h2,h3,h4,h5,ul,li{margin:0;padding:0}"+
-                         "ul{list-style:lower-roman;}"+
+                         "ul{list-style:circle;-qt-list-indent:0;-qt-list-number-suffix:' ';margin-left:20;}"+
                          `a{color:${palette.highlight}}` +
-                         `a:hover{color:red}` +
                          `code>a{text-decoration:none;color:${palette.text}}`;
     property string text: ""
     property alias textarea: textarea
@@ -93,7 +92,7 @@ Control {
         selectedTextColor: palette.highlightedText
 
         onLinkHovered: if(hoveredLink) copyLabel.text = "Copy";
-        onLinkActivated: {
+        onLinkActivated: link => {
             if(link.startsWith("#code")) {
                 copyLabel.text = "Copied!";
                 Qomponent.copy(link.slice(6));
@@ -119,11 +118,11 @@ Control {
     Menu {
         id: rightClick
         property string link: ""
-        width: 105; height: contentHeight
+        width: 110; height: contentHeight
         palette.light: control.palette.highlight
 
         MenuItem {
-            height: enabled * 20
+            height: enabled * (implicitContentHeight + 10)
             enabled: textarea.selectedText.length
             visible: enabled
             text: "copy selected text"
@@ -131,7 +130,7 @@ Control {
         }
 
         MenuItem {
-            height: enabled * 20
+            height: enabled * (implicitContentHeight + 10)
             text: "copy all text"
             onTriggered: {
                 textarea.selectAll();
@@ -141,7 +140,7 @@ Control {
         }
 
         MenuItem {
-            height: enabled * 20
+            height: enabled * (implicitContentHeight + 10)
             enabled: rightClick.link
             visible: enabled
             text: rightClick.link.startsWith("#code") ? "copy code" : "copy link"
@@ -159,7 +158,7 @@ Control {
         background: Rectangle {
             radius: 2; opacity: 0.5
             border { width:1; color: palette.windowText }
-            color: copyLabel.text == "Copy" ? "transparent" : palette.button
+            color: copyLabel.text === "Copy" ? "transparent" : palette.button
         }
         Behavior on opacity { NumberAnimation {} }
     }

@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: MIT
 // https://0smr.github.io
 
-import QtQuick 2.15
-import QtQuick.Window 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Window
+import QtQuick.Controls.Basic
 
-import Qomponent 0.1
+import qomponent
 
 Control {
     id: control
 
     padding: 5
     visible: false
-    parent: Window.window.contentItem
+    parent: Window?.window?.contentItem ?? target
 
     QtObject {
         id: internals
@@ -69,13 +69,16 @@ Control {
         "backspace": () => {
             // TODO: Characters should be removed before the text cursor position.
             const str = target.text;
-            const ss = Math.max(0, target.selectionStart ?? target.length) - 1;
-            target.text = ss >= 0 ? str.qsplice(ss, 1) : str;
-            target.select(ss, ss);
+            const ss = Math.max(0, target.selectionStart ?? target.length);
+            const se = target.selectionEnd ?? ss;
+            const _ss = ss === se ? ss - 1 : ss;
+            target.text = _ss >= 0 ? str.qsplice(_ss, Math.abs(se - _ss)) : str;
+            target.select(_ss, _ss);
+
             return "";
         },
         "capslock": () => {
-            uppercase ^= 1;
+            uppercase = !uppercase;
             return "";
         }
     }
@@ -133,14 +136,15 @@ Control {
         }
     }
 
-    onPressed: {
+    onPressed: (button, text) => {
         if(target) {
             const len = target.text.lenght;
             const val = keyMap[text] instanceof(Function) ? keyMap[text]() : text;
             const ss = Math.max(0, target.selectionStart ?? target.length);
-            target.text = target.text.qsplice(ss, 0, val);
-            val && target.select(ss + 1, ss + 1);
-            // TODO: Characters should be inserted after the text cursor position.
+            const se = target.selectionEnd ?? ss;
+            /// Insert character on cursor position (or replace selected text)
+            target.text = target.text.qsplice(ss, Math.abs(se - ss), val);
+            if(val) target.select(ss + 1, ss + 1);
         }
     }
 
@@ -157,8 +161,8 @@ Control {
         horizontalItemAlignment: Grid.AlignHCenter
         KeyGroup {
             visible: digit
-            columns: internals.digitOnly ? 3 : -1
-            rows: internals.digitOnly ? -1 : 1
+            columns: internals.digitOnly ? 3 : 10
+            rows: -1
             flow: Grid.LeftToRight
             /// If it's digitOnly, exclude zero.
             model: alphabet && uppercase ? "!@#$%^&*()".split("") :
@@ -169,7 +173,7 @@ Control {
         KeyGroup { visible: alphabet; model: (uppercase ? "ZXCVBNM" : "zxcvbnm").split("") }
         KeyGroup {
             columns: internals.digitOnly ? 3 : -1
-            rows: internals.digitOnly ? -1 : 1
+            rows: -1
             model: {
                 /**
                  * include capslock button, If switchCase is enabled.

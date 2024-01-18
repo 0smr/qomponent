@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 // https://0smr.github.io
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls.Basic
 
 Control {
     id: control
@@ -33,25 +33,7 @@ Control {
             readonly property real v: control.hsvValue
             readonly property real s: control.hsvSaturation
 
-            fragmentShader: "
-                varying highp vec2 qt_TexCoord0;
-                uniform highp float qt_Opacity;
-                uniform highp float strokeWidth;
-                uniform highp float s;
-                uniform highp float v;
-
-                vec3 hsv2rgb(vec3 c) {
-                    vec4 K = vec4(1., 2. / 3., 1. / 3., 3.);
-                    vec3 p = abs(fract(c.xxx + K.xyz) * 6. - K.www);
-                    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.), c.y);
-                }
-
-                void main() {
-                    highp vec2 coord = qt_TexCoord0 - vec2(.5);
-                    highp float ring = smoothstep(0., .01, -abs(length(coord) - .5 + strokeWidth) + strokeWidth);
-                    gl_FragColor = vec4(hsv2rgb(vec3(-atan(coord.x, coord.y) / 6.2831 + .5, s, v)),1.);
-                    gl_FragColor *= ring;
-                }"
+            fragmentShader: "qrc:/qomponent/shader/color-ring.frag.qsb"
         }
 
         Rectangle {
@@ -109,7 +91,7 @@ Control {
                 angle = Math.atan2(width/2 - mouseX, mouseY - height/2) / 6.2831 + 0.5;
             }
 
-            onPressed: {
+            onPressed: function(mouse) {
                 const dist = Math.hypot(mouseX - width/2, mouseY - height/2);
                 mouse.accepted = width/2 - control.strokeWidth < dist
             }

@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: MIT
 // https://0smr.github.io
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls.Basic
 
-import Qomponent 0.1
+import qomponent 0.2
 
 Control {
 	id: control
@@ -30,7 +30,7 @@ Control {
 			property vector2d offset: Qt.vector2d(0, 0)
 			property vector2d size: Qt.vector2d(width, height)
 
-			fragmentShader: "qrc:/Qomponent/shader/grid-ruler.glsl"
+			fragmentShader: "qrc:/qomponent/shader/grid-ruler.frag.qsb"
 
 			DragHandler {
 				id: draghandler

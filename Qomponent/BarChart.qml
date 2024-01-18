@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 // https://0smr.github.io
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls.Basic
 
 Control {
     id: control
@@ -32,7 +32,9 @@ Control {
     contentItem: ShaderEffect {
         id: shader
 
+        // Chart color
         property color color: palette.button
+        // Chart data and shader source
         property Canvas source: Canvas {
             id: canvas
             width: Math.max(1, model.count - 1); height: 1
@@ -58,22 +60,7 @@ Control {
             }
         }
 
-        fragmentShader: "
-            #ifdef GL_ES
-                precision highp float;
-                precision highp int;
-            #endif
-
-            varying highp vec2 qt_TexCoord0;
-            uniform highp sampler2D source;
-            uniform highp float qt_Opacity;
-            uniform highp float height;
-            uniform highp vec4 color;
-
-            void main() {
-                vec4 v = texture2D(source, qt_TexCoord0);
-                gl_FragColor = smoothstep(0.0, 0.5/height, qt_TexCoord0.y - 1.0 + v.a) * color * qt_Opacity;
-            }"
+        fragmentShader: "qrc:/qomponent/shader/bar-chart.frag.qsb"
     }
 
     background: Rectangle {

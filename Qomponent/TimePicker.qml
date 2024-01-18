@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 // https://0smr.github.io
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls.Basic
 
 Control {
     id: control
@@ -38,27 +38,7 @@ Control {
             property color color: shaderSource.color
             property color highlight: shaderSource.highlight
 
-            fragmentShader: "
-                #ifdef GL_ES
-                    precision highp float;
-                    precision highp int;
-                #endif
-
-                varying highp vec2 qt_TexCoord0;
-                uniform highp sampler2D source;
-                uniform highp float qt_Opacity;
-                uniform highp vec2 size;
-                uniform highp vec4 color;
-                uniform highp vec4 highlight;
-
-                void main() {
-                    float m = min(size.x, size.y);
-                    vec2 uv = (qt_TexCoord0 - 0.5) * size/min(size.x, size.y);
-                    vec4 t = texture2D(source, qt_TexCoord0);
-                    // center and background circle
-                    vec2 c = smoothstep(vec2(0.5/m), vec2(0.0), vec2(length(uv) + 0.5/m) - vec2(0.5, 1.0/m));
-                    gl_FragColor = mix(color, highlight, max(t.a, c.y)) * c.x * qt_Opacity;
-                }" /// for Qt6 use `qrc:/iball.frag.qsb`
+            fragmentShader: "qrc:/qomponent/shader/iball.frag.qsb"
         }
     }
 

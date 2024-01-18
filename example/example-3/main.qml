@@ -1,23 +1,14 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Window 2.15
-
-import Qomponent 0.2
+import QtQuick.Controls.Basic
+import QtQuick.Window
 
 ApplicationWindow {
     id: window
-    width: 200
-    height: 200
+    width: 280
+    height: 460
     visible: true
 
-    color: '#121314'
-    palette.windowText: '#f1f2f3'
-
-    GridRuler {
-        x: (parent.width - width)/2
-        y: (parent.height - width)/2
-
-        width: 100
-        height: 100
+    contentData: Page2 {
+        width: window.width
+        height: window.height
     }
 }

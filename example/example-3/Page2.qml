@@ -1,14 +1,27 @@
-import QtQuick 2.15
-import QtQuick.Window 2.15
-import QtQuick.Controls 2.15
+import QtCore
+import QtQuick
+import QtQuick.Controls.Basic
 
-import Qomponent 0.2
+import qomponent
 
 Page {
     id: root
 
     implicitWidth: 240
     implicitHeight: 430
+
+    palette {
+        button: "#4af"
+        buttonText: "#fff"
+        highlight: "#57f"
+        highlightedText: "#fff"
+
+        base: "#1d1c21"
+        text: "#eee"
+        window: '#1d1c21'
+        windowText: "#eee"
+        placeholderText: '#eee'
+    }
 
     component Header: Label {
         topPadding: 10
@@ -75,14 +88,19 @@ Page {
     PageIndicator {
         x: (parent.width - width)/2
         y: parent.height - height - 10
-        count: swipview.count
-        currentIndex: swipview.currentIndex
+        count: swipeview.count
+        currentIndex: swipeview.currentIndex
 
         palette.dark: '#fff'
     }
 
+    Settings {
+        location: 'conf.ini'
+        property alias cindex: swipeview.currentIndex
+    }
+
     SwipeView {
-        id: swipview
+        id: swipeview
         currentIndex: 0
         padding: 5; spacing: 5
         anchors.fill: parent

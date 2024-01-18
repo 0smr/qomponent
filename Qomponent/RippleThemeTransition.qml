@@ -1,6 +1,6 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Window 2.15
+import QtQuick
+import QtQuick.Controls.Basic
+import QtQuick.Window
 
 Control {
     id: control
@@ -60,22 +60,6 @@ Control {
             onFinished: control.visible = false;
         }
 
-        fragmentShader: "
-            #ifdef GL_ES
-                precision highp float;
-                precision highp int;
-            #endif
-
-            uniform sampler2D source;
-            varying highp vec2 qt_TexCoord0;
-            uniform highp float qt_Opacity;
-            uniform highp float radius;
-            uniform highp float _ssv;
-            uniform highp vec2 _size;
-            uniform highp vec2 point;
-            void main() {
-                vec2 uv = qt_TexCoord0 * _size - point;
-                gl_FragColor = texture2D(source, qt_TexCoord0) * smoothstep(0.0, _ssv, length(uv) - radius) * qt_Opacity;
-            }"
+        fragmentShader: "qrc:/qomponent/shader/ripple-mask.frag.qsb"
     }
 }

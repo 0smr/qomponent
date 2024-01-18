@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: MIT
 // https://0smr.github.io
 
-import QtQuick 2.15
-import QtQuick.Window 2.15
-import QtQuick.Templates 2.15 as T
+import QtQuick
+import QtQuick.Window
+import QtQuick.Templates as T
 
-import Qomponent 0.1
+import qomponent
 
 T.Control {
     id: control
@@ -123,7 +123,7 @@ T.Control {
         x: coordinate.x - contentWidth / 2
         y: coordinate.y - contentHeight / 2
         closePolicy: T.Popup.CloseOnEscape
-        parent: control.external ? _window.contentItem : internals.window.contentItem
+        parent: control.external ? _window.contentItem : internals?.window?.contentItem
         modal: false; dim: true
 
         contentItem: Loader {
