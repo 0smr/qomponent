@@ -11,21 +11,18 @@ layout(std140, binding = 0) uniform buf {
     float _sw;
 };
 
-float sdRoundBox(vec2 p, vec2 b, vec4 r) {
-    // TODO: The radius should be able to cover values greater than 0.5.
-    // vec4 r = min(min(_r, vec4(1.0, 1.0 - _r.xyz)), 1.0 - _r.x);
-    // float hl = 0.5, vl = 0.5;
-    r.xy = mix(r.xy, r.wz, round(p.y + 0.5));
-    r.x  = mix(r.x, r.y, round(p.x + 0.5));
-    vec2 q = abs(p) - b + r.x;
-    return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r.x;
+float sdRoundBox(vec2 region, vec2 pos, vec2 b, vec4 r) {
+    r.xy = mix(r.xy, r.wz, region.y);
+    r.x  = mix(r.x, r.y, region.x);
+    vec2 q = abs(pos) - b + r.x;
+    return clamp(q.x, q.y, 0.0) + length(max(q, 0.0)) - r.x;
 }
 
 void main() {
-    float _min = min(size.x, size.y), px = 0.5/_min, sw = _sw/_min;
-    vec2 uv = (qt_TexCoord0 - 0.5) * size/_min;
-    float d = sdRoundBox(uv, vec2(0.5 - px), min(_radius/_min, 0.5 - 2.0 * px));
+    float minSide = min(size.x, size.y), px = 0.5/minSide, strokeWidth = _sw/minSide;
+    vec2 ratio = size/minSide, uv = qt_TexCoord0, pos = (uv - 0.5) * ratio;
+    float d = sdRoundBox(round(uv), pos, ratio * 0.5 - px, min(_radius/minSide, min(ratio.x, ratio.y)/2));
     float f = smoothstep(px, 0.0, d);
-    float s = smoothstep(px, 0.0, abs(d + sw - px) - sw + px);
+    float s = smoothstep(px, 0.0, abs(d + strokeWidth - px) - strokeWidth + px);
     fragColor = mix(mix(vec4(0.0), color, f), stroke, s);
 }

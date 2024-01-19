@@ -47,7 +47,6 @@ if(QT_VERSION_MAJOR EQUAL 6)
         ${NoCache}
         QML_FILES ${QML_FILES}
         QML_FILES scripts.js
-        RESOURCES shader/saturation-spectrom.frag
     )
 
     qt_add_resources(qomponent "fonts"

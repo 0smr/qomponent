@@ -176,7 +176,8 @@ Page {
 
             Header { text: 'Rectangle' }
 
-            Grid {
+            Flow {
+                width: 100
                 spacing: 5
                 Repeater {
                     model: [[0, 3, 5, 10], [5, 15, 0, 10], [10, 5], 12,
@@ -197,6 +198,30 @@ Page {
                             } else {
                                 return modelData;
                             }
+                        }
+                    }
+                }
+
+                QRect {
+                    width: rectHandle.x; height: rectHandle.y
+                    radius: Qt.vector4d(5, 50, 0, 25)
+
+                    color: 'transparent'
+                    stroke: '#23a9f2'
+                    strokeWidth: 1
+
+                    Rectangle {
+                        id: rectHandle
+                        x: 100; y: 20
+                        width: 5; height: 5
+
+                        color: 'red'
+
+                        DragHandler {
+                            cursorShape: Qt.ClosedHandCursor
+                            dragThreshold: 1
+                            xAxis { minimum: 10; maximum: 100 }
+                            yAxis { minimum: 10; maximum: 100 }
                         }
                     }
                 }

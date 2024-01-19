@@ -6,6 +6,7 @@ layout(std140, binding = 0) uniform buf {
     float qt_Opacity;
     vec4 color;
 };
+
 void main() {
     vec2 uv = qt_TexCoord0;
     fragColor = vec4(mix(mix(vec3(1.), color.xyz, uv.x), vec3(0.0), uv.y), qt_Opacity);
